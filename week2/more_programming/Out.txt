@@ -1,0 +1,18 @@
+hello world!
+1
+666
+a=b
+1 2 3 
+1 2 3 
+1 2 3 
+1 2 3 
+6 6 6 
+now comes the while loop 
+v[0]=6
+v[1]=6
+v[2]=6
+now comes the do loop 
+v[0]=6
+v[1]=6
+v[2]=6
+
