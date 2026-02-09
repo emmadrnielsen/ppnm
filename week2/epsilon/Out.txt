@@ -1,15 +1,21 @@
 
  Opgave 1 
-float eps = 1.192092896e-07
-double eps = 2.2204460492503131e-16
-long double eps = 1.08420217248550443401e-19
+calculated machine epsilons: 
+float eps = 1.19209e-07
+double eps = 2.22045e-16
+long double eps = 1.0842e-19
 
+machine epsilons for system: 
 float eps system = 1.19209e-07
 double eps system = 2.22045e-16
 long double eps system = 1.0842e-19
 
+the calculated epsilons are the same as the system defined epsilons 
+this is checked by checking if they are == each other: 
+Resultat: de er alle sammen ens 
+
 pow(2, -52)= 2.22045e-16
-po2(2, -23)= 1.19209e-07
+pow(2, -23)= 1.19209e-07
 
  Opgave 2 
 epsilon=std::pow(2,-52) 
@@ -19,9 +25,11 @@ b=tiny+tiny+1
 a==b ? false
 a>1  ? false
 b>1  ? true
-tiny =        0.00000000000000011
+tiny = 0.00000000000000011
 a = 1.00000000000000000
+ when the large number is first, the tiny numbers are rounded down 
 b = 1.00000000000000022
+ when the tiny numbers are first they are not rounded down 
  
  Opgave 3 
 d1==d2? false
