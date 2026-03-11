@@ -1,0 +1,12 @@
+
+set terminal svg background rgb "white"
+set output "fig3.svg"
+set xlabel "x"
+set ylabel "lngamma(x)"
+set title "lngamma function: approximation vs lnfactorial test"
+set key left top
+set tics out
+set grid
+set logscale y
+plot [0:10][0.1:10] "lngamma.data" using 1:2 with lines title "lngamma(x)", \
+     "logfactorial.data" using 1:2 with points title "lngamma(n+1)=n!"

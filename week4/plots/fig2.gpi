@@ -1,0 +1,11 @@
+
+set terminal svg background rgb "white"
+set output "fig2.svg"
+set xlabel "x"
+set ylabel "Gamma(x)"
+set title "Gamma function: approximation vs factorial test"
+set key left top
+set tics out
+set grid
+plot [-5:6][-5:8] "gamma.data" using 1:2 with lines title "sgamma(x)", \
+     "factorial.data" using 1:2 with points title "Gamma(n+1)=n!"
