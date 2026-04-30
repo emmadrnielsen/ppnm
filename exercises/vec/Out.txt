@@ -1,0 +1,46 @@
+hello world!
+1
+666
+a==b
+for(size_t=0....) loop:
+1 2 3 
+for(auto vi : v) loop:1 2 3 
+for(double vi :v) loop:1 2 3 
+
+is v changed after 'auto& vi' ?
+6 6 6 
+ now comes the while loop:   v[0]= 6 v[1]= 6 v[2]= 6
+ now comes the do loop:   v[0]= 6 v[1]= 6 v[2]= 6
+two constructors are going to be called shortly...
+here comes vec i: 0 9 9
+calling friend operator<< on vec i: { 0, 9, 9 } 
+here comes vec ip: { -1, -1, -1 } 
+ip + i: { -1, 8, 8 } 
+now a couple of destructors are going to be called...
+
+--- extensive vec tests ---
+vec_a = 1 2 3vec_b = 4 5 6vec_a = { 1, 2, 3 } 
+vec_b = { 4, 5, 6 } 
+[passed] default constructor
+[passed] copy constructor
+[passed] move constructor
+[passed] copy assignment
+[passed] move assignment
+[passed] unary minus
+[passed] operator+
+[passed] operator-
+[passed] operator+=
+[passed] operator-=
+[passed] vec * double
+[passed] double * vec
+[passed] operator*=
+[passed] operator/
+[passed] operator/=
+[passed] dot product
+[passed] cross product
+[passed] norm
+[passed] approx(vec, vec)
+[passed] approx(double, double)
+
+Number of failed tests: 0
+--- end vec tests ---

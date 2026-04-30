@@ -66,6 +66,19 @@ int main(int argc, char** argv) {
     pp::vector e = result.eigenvalues;
     pp::matrix V = result.eigenvectors;
 
+    //Take eigenvector from matrix V, convert it into the physical
+    //radial wavefunction f(r), and write it to a file
+    saveWavefunction("wf0.txt", r, V, 0, dr);
+    saveWavefunction("wf1.txt", r, V, 1, dr);
+    saveWavefunction("wf2.txt", r, V, 2, dr);
+
+    // printing the corresponding energies:
+    std::cout << "e[0] = " << e[0] << "\n";
+    std::cout << "e[1] = " << e[1] << "\n";
+    std::cout << "e[2] = " << e[2] << "\n";
+
+
+
     // For printing more than 1 energy state:
     // for (std::size_t i = 0; i < e.size(); ++i) {
     //     std::cout << "e[" << i << "] = " << e[i] << "\n";
@@ -73,42 +86,6 @@ int main(int argc, char** argv) {
 
     // For printing only the ground state energy:
     std::cout << "e[0] = " << e[0] << "\n";
-    
-
-    
-
-    // if (argc != 3) {
-    //     std::cerr << "Usage: ./main rmax dr\n";
-    //     return 1;
-    // }
-
-    // double rmax = std::atof(argv[1]);
-    // double dr   = std::atof(argv[2]);
-
-    // try {
-    //     pp::vector rgrid;
-    //     pp::matrix H = buildHydrogenHamiltonian(rmax, dr, rgrid);
-
-    //     JacobiResult result = jacobi(H);
-
-    //     std::cout << std::setprecision(12);
-    //     std::cout << "Grid points: " << rgrid.size() << "\n";
-    //     std::cout << "Sweeps: " << result.sweeps << "\n";
-    //     std::cout << "Rotations: " << result.rotations << "\n\n";
-
-    //     std::cout << "Lowest eigenvalues:\n";
-    //     for (std::size_t i = 0; i < 5 && i < result.eigenvalues.size(); ++i) {
-    //         std::cout << "E[" << i << "] = " << result.eigenvalues[i] << "\n";
-    //     }
-
-    //     saveWavefunction("wf0.dat", rgrid, result.eigenvectors, 0, dr);
-    //     if (result.eigenvalues.size() > 1) saveWavefunction("wf1.dat", rgrid, result.eigenvectors, 1, dr);
-    //     if (result.eigenvalues.size() > 2) saveWavefunction("wf2.dat", rgrid, result.eigenvectors, 2, dr);
-
-    // } catch (const std::exception& e) {
-    //     std::cerr << "Error: " << e.what() << "\n";
-    //     return 1;
-    // }
 
     return 0;
 }

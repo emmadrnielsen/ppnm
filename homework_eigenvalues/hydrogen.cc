@@ -23,19 +23,25 @@ pp::matrix buildHamiltonian(double rmax, double dr, pp::vector& rgrid) {
     return H;
 }
 
+
+// writes one file per state
 void saveWavefunction(const std::string& filename,
                       const pp::vector& rgrid,
                       const pp::matrix& eigenvectors,
                       std::size_t stateIndex,
                       double dr) {
-    std::ofstream out(filename);
+    std::ofstream out(filename); // this creates a file and the function 
+                                // will write the values into this file
     if (!out) {
         throw std::runtime_error("could not open file");
     }
 
-    double factor = 1.0 / std::sqrt(dr);
+    double factor = 1.0 / std::sqrt(dr); // regner 1/sqrt(dr). Det er den const der står i opgaven
 
     for (std::size_t i = 0; i < rgrid.size(); ++i) {
         out << rgrid[i] << " " << factor * eigenvectors(i, stateIndex) << "\n";
+        // ganger hvert element med 1/sqrt(dr). Det er den øverste formel i opgaven om wavefunctions
+        // outputtet bliver lagt ind i filen som   r_i  f(r_i)
     }
 }
+

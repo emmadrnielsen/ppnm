@@ -1,0 +1,10 @@
+
+set terminal svg background rgb "white"
+set output "fig1.svg"
+set xlabel "x"
+set ylabel "erf(x)"
+set title "Error function: approximation vs std::erf"
+set key right bottom
+set tics out
+plot "erf.data" using 1:2 with lines  title "Approx (A&S)", \
+     "erf.data" using 1:3 with points title "std::erf(x)"
