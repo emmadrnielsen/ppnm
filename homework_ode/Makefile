@@ -1,0 +1,17 @@
+
+CXX = g++
+CXXFLAGS = -O2 -std=c++23 -Wall -Wextra -pedantic
+
+OBJS = main.o ode.o
+
+main: $(OBJS)
+	$(CXX) $(CXXFLAGS) -o main $(OBJS)
+
+main.o: main.cc ode.h
+	$(CXX) $(CXXFLAGS) -c main.cc
+
+ode.o: ode.cc ode.h
+	$(CXX) $(CXXFLAGS) -c ode.cc
+
+clean:
+	rm -f *.o main data.txt plot.svg

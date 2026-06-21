@@ -1,0 +1,6 @@
+Rosenbrock function
+x = 0.999874
+y = 0.999746
+f(x,y) = 1.6091e-08
+Newton steps = 20
+Converged = yes

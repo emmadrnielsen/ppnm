@@ -71,6 +71,16 @@ struct vector{           //struct and class is basically the same. for struct ev
 }
 };
 
+// For printing:
+inline std::ostream& operator<<(std::ostream& os, const vector& v)
+{
+    for (std::size_t i = 0; i < v.size(); ++i) {
+        os << v[i] << "\n";
+    }
+
+    return os;
+}
+
 // Free operators
 inline vector operator+(vector a, const vector& b) { return a += b; }
 inline vector operator-(vector a, const vector& b) { return a -= b; }
@@ -173,6 +183,19 @@ public:
 }
 };
 
+// For printing the matrix:
+inline std::ostream& operator<<(std::ostream& os, const matrix& A)
+{
+    for (std::size_t i = 0; i < A.rows(); ++i) {
+        for (std::size_t j = 0; j < A.cols(); ++j) {
+            os << A(i, j) << " ";
+        }
+        os << "\n";
+    }
+
+    return os;
+}
+
 //free operators
 inline matrix operator+(matrix A, const matrix& B) { return A += B; }
 inline matrix operator-(matrix A, const matrix& B) { return A -= B; }
@@ -188,6 +211,11 @@ struct qr{
         // compute QR decomposition of A
         std::size_t n = A.rows();
         std::size_t m = A.cols();
+
+        if (n < m)
+            throw std::invalid_argument(
+                "QR decomposition requires rows >= columns"
+            );
 
         Q = matrix(n , m, 0.0);
         R = matrix(m, m, 0.0);
@@ -240,6 +268,10 @@ struct qr{
     }
 
     double det() const {
+        if (Q.rows() != Q.cols())
+            throw std::invalid_argument(
+                "determinant requires a square matrix"
+            );
         std::size_t m = R.cols();
         double d = 1.0;
 

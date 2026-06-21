@@ -1,0 +1,12 @@
+Integral of 1/sqrt(x)
+scipy result = 1.9999999999999984
+actual error = 1.5543122344752192e-15
+scipy error estimate = 5.773159728050814e-15
+function calls = 231
+
+Integral of log(x)/sqrt(x)
+scipy result = -4.000000000000085
+actual error = 8.526512829121202e-14
+scipy error estimate = 1.354472090042691e-13
+function calls = 315
+

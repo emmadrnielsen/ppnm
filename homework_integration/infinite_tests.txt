@@ -1,0 +1,11 @@
+Integral exp(-x) from 0 to infinity
+result = 0.998397
+exact  = 1
+error  = 0.00160323
+calls = 32
+
+Integral exp(-x*x) from -infinity to infinity
+result = 1.7724
+exact  = 1.77245
+error  = 5.05747e-05
+calls = 80

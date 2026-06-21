@@ -1,0 +1,11 @@
+set terminal svg size 1000,700 background "white"
+set output "erf_convergence.svg"
+
+set xlabel "acc"
+set ylabel "|erf(1) - exact|"
+set logscale x
+set logscale y
+set grid
+set key outside
+
+plot "erf_convergence.txt" using 1:3 with linespoints title "absolute error"

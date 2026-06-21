@@ -1,12 +1,9 @@
-Command terminated by signal 6
-100 0.03
-Command terminated by signal 6
-120 0.01
-Command terminated by signal 6
-140 0.01
-Command terminated by signal 6
-160 0.01
-Command terminated by signal 6
-180 0.01
-Command terminated by signal 6
 200 0.01
+300 0.03
+400 0.09
+500 0.12
+600 0.22
+700 0.34
+800 0.56
+900 0.75
+1000 0.95

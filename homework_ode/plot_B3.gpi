@@ -1,0 +1,10 @@
+set terminal svg size 700,700 background "white"
+set output "orbit_B3.svg"
+
+set xlabel "x"
+set ylabel "y"
+set size ratio -1
+set grid
+set key outside
+
+plot "orbit_B3.txt" using 4:5 with lines title "epsilon=0.01, precessing orbit"

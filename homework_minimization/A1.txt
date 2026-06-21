@@ -1,0 +1,5 @@
+Minimum:
+x[0] = 2.00024
+x[1] = -3.00036
+Newton steps = 1
+Converged = yes

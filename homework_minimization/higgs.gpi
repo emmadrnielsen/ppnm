@@ -1,0 +1,18 @@
+set terminal svg enhanced background "white"
+set output "higgs.svg"
+
+set title "Breit-Wigner fit to Higgs data"
+set xlabel "Energy E [GeV]"
+set ylabel "Signal sigma(E) [arbitrary units]"
+
+set grid
+set key top right
+set xrange [100:160]
+
+plot \
+    "higgs.data.txt" using 1:2:3 \
+        with yerrorbars pointtype 7 pointsize 0.8 \
+        title "Experimental data", \
+    "fit.data.txt" using 1:2 \
+        with lines linewidth 2 \
+        title "Breit-Wigner fit"

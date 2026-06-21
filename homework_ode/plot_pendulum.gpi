@@ -1,0 +1,11 @@
+set terminal svg size 1200,600 background "white"
+set output "pendulum.svg"
+
+set xlabel "t"
+set ylabel "value"
+set grid
+set key outside
+
+plot \
+    "pendulum.txt" using 1:2 with linespoints title "theta(t)", \
+    "pendulum.txt" using 1:3 with linespoints title "omega(t)"

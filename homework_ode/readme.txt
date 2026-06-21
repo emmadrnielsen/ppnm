@@ -1,0 +1,1 @@
+Numerical u should follow cos(x), and numerical u' should follow -sin(x).

@@ -1,0 +1,19 @@
+set terminal svg enhanced background "white"
+set output "QR_runtime.svg"
+
+set title "Time for QR decomposition"
+set xlabel "Matrix size N"
+set ylabel "Time [s]"
+
+set grid
+set key top left
+
+# Expected O(N^3) behaviour
+f(x) = a*x**3
+a = 1e-8
+
+fit f(x) "out.times.data" using 1:2 via a
+
+plot "out.times.data" using 1:2 with points pointtype 7 \
+     title "Measured time", \
+     f(x) with lines linewidth 2 title sprintf("Fit: %.3e N^3", a)

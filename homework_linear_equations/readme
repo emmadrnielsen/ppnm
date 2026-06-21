@@ -1,0 +1,23 @@
+For task A the code should be run as such:
+make clean
+make 
+./main A
+
+For task B the code should be run in the same way:
+make clean 
+make
+./main B
+
+For problem C you should run it as 
+make clean
+make
+make out.times.data
+gnuplot times.gpi
+
+The files Problem_A.txt and Problem_B.txt are the results of running ./main A and ./main B respectively. 
+
+plot_C.svg is the result of task C. It is the runtime as function of N
+
+AI was used for the code. 
+
+

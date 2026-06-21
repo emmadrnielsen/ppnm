@@ -1,0 +1,110 @@
+
+We want to solve a system of nonlinear equations.
+The goal is to find a vector x such that every component of
+the f(x) vector is zero. (f0(x)=0, f1(x)=0, f2(x)=0 etc.)
+
+Suppose we have a current guess x but it is not exactly a root yet. 
+Newton's method asks: what small correction deltax should we add to x so that x+deltax is closer to the root?
+We want f(x+deltax) to be close to 0
+Because f is nonlinear, this is hard. 
+Newton's trick is to approximate f by its first-order Taylor expansion
+f(x+deltax) ~= f(x) + J(x)deltax
+where J(x) is the Jacobian matrix. 
+
+The Jacobian is the matrix of all first derivatives.
+Equation 5 in the notes show
+J(x)deltax = -f(x), which we want to solve
+
+
+The assignment says not to calculate the Jacobian analytically. Instead, we approximate derivatives numerically. 
+For one variable, the derivative is approximated by
+f'(x) ~= (f(x+dx)-f(x))/dx
+
+For a vector function, we do this one variable at a time. 
+To calculate column j of the Jacobian, we perturb only xj
+
+
+1. Start with an initial guess x
+2. Compute f(x)
+3. If ||f(x)|| < acc, stop
+4. Approximate the Jacobian J(x) using finite differences
+5. Solve the linear system J*deltax = -f(x)
+6. Try the step z = x + a*deltax
+7. If ||f(z)|| < ||f(x)||, accept it
+8. Otherwise replace a with a/2.
+9. Repeat until convergence
+
+
+Opgave B:
+We have this equation: -(1/2)f'' -(1/r)f = Ef, which is
+a differential equation. 
+It is a second-order ODE because it contains f''(r).
+
+The boundary conditions are 
+f(r → 0) = r-r², (prove this)
+f(r → ∞) = 0 .
+
+These two boundary conditions can only be satisfied for 
+certain discrete (negative) values of the energy.
+
+Since the Coulomb potential diverges at zero one cannot 
+specify the boundary condition at r=0 numerically. 
+Instead one can use some finite radius rmin, that is 
+much smaller than the Bohr radius, and specify the 
+boundary condition at rmin,
+f(0)=0 → f(rmin)=rmin-rmin² .
+
+We also need the derivative f'(rmin), because this is a
+second-order ODE. 
+f'(rmin) = 1 - 2rmin
+
+Since one cannot integrate numerically to ∞ one 
+substitutes ∞ with a reasonably large number, rmax, such 
+that it is much larger than the typical size of the 
+hydrogen atom but still manageable for the numerical 
+integrator (say, rmax = 10 Bohr radii),
+f(∞)=0 → f(rmax)=0 .
+
+The ODE driver solves first-order systems of the form
+y'(r) = F(r, y)
+So we introduce two variables:
+y0(r) = f(r)
+y1(r) = f'(r)
+Then y0'(r) = y1(r)
+
+Now we need an equation for y1', which is f''(r)
+We start from -(1/2)f'' -(1/r)f = Ef
+f'' + (2/r)f = -2Ef
+f'' = -2(E+1/r)f
+Therefore 
+y1' = -2(E + 1/r)y0 
+
+So the first-order system is
+y0' = y1
+y1' = -2(E + 1/r)y0 
+
+The unknown parameter is the energy E.
+For any chosen value of E, we can solve the ODE from rmin
+to rmax. This gives a solution FE(r).
+But usually, for a random E, the solution will not satisfy
+FE(rmax) = 0. It will only be satisfied when E is equal
+to one of the bound state energies of the system. 
+So we define a function M(E) = FE(rmax).
+The correct bound-state energy is one where M(E) = 0.
+So the boundary value problem becomes a root-finding
+problem. 
+
+Summary:
+1. Pick rmin - chat suggests 1e-03
+2. Pick rmax - the assignment suggests 8
+3. For a given E, solve    
+    y0' = y1      
+    y1' = -2(E + 1/r)y0 
+    With initial conditions
+    y0(rmin)=rmin-rmin²
+    y1(rmin) = 1 - 2rmin
+4. Define M(E) = y0(rmax)
+5. Use Newton's method to solve M(E) = 0
+6. The root should be close to E0 = -0.5
+7. Plot the final numerical wave-function and compare 
+    with f0(r) = re^(-r)

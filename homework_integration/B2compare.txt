@@ -1,0 +1,8 @@
+Integral of 1/sqrt(x)
+ordinary result = 1.99996 error = 3.84999e-05 calls = 8572
+CC result       = 1.99999 error = 7.98954e-06 calls = 16
+
+Integral of log(x)/sqrt(x)
+ordinary result = -3.99992 error = 8.2941e-05 calls = 8604
+CC result       = -3.99987 error = 0.000126144 calls = 96
+

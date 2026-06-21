@@ -1,0 +1,36 @@
+We have a function and we want to find a point x where the
+function is as small as possible.
+
+At an interior local minimum, the function must be
+stationary, so the gradient is 0. 
+
+The gradient does not in it self mean that the point is 
+a minima, because maxima and saddle points also have 
+0 gradient. To distinguish them, we consider the 
+Hessian matrix. The Hessian matrix is a square matrix 
+of second-order partial derivatives of the objective
+function at the point x. 
+Only if H(x) is positive definite, the
+x is a strict local minimum. 
+
+Equation 2 in the lecture notes uses Δx to represent 
+a displacement from the current point x, and approximates 
+the function near x by a quadratic surface.
+
+The minimum of the quadratic form (2), as a function of 
+Δx, is found at the point where the gradient with respect
+to Δx vanishes, (equation 5)
+
+The negative gradient points in the direction of steepest
+local decrease. 
+
+Newton's step (equation 6):
+In directions with large curvature, Newton's method takes
+smaller steps.
+In directions with small curvature, it takes larger steps.
+For an exactly quadratic function with a positive-definite
+Hessian, Newton's method reaches the minimum in one
+iteration, assuming exact artihmetic. 
+Near a sufficiently regular minimum, Newton's method
+usually converges very rapidly. 
+

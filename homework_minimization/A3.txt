@@ -1,0 +1,7 @@
+
+Himmelblau function
+x = 3
+y = 2
+f(x,y) = 2.36513e-10
+Newton steps = 4
+Converged = yes

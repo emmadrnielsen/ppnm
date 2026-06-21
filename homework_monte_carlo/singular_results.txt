@@ -1,0 +1,17 @@
+# Singular 3D integral
+# exact = 1.3932
+
+LCG
+result          = 1.39498
+estimated error = 0.00801211
+actual error    = 0.00177464
+
+std::mt19937
+result          = 1.39755
+estimated error = 0.00737037
+actual error    = 0.00434392
+
+Halton quasi-random
+result          = 1.38843
+estimated error = 0.00443782
+actual error    = 0.00477772

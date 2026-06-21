@@ -1,0 +1,18 @@
+Integral sqrt(x)
+result          = 0.666954
+exact           = 0.666667
+estimated error = 0.000451855
+actual error    = 0.000287242
+
+Integral 1/sqrt(x)
+result          = 1.99996
+exact           = 2
+estimated error = 0.000412013
+actual error    = 3.84999e-05
+
+Integral log(x)/sqrt(x)
+result          = -3.99992
+exact           = -4
+estimated error = 0.000754017
+actual error    = 8.2941e-05
+

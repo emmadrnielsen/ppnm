@@ -1,0 +1,31 @@
+set terminal svg size 900,600 enhanced background "white"
+
+set grid
+set ylabel "|E + 0.5|"
+
+set output "convergence_rmax.svg"
+unset logscale
+set logscale y
+set xlabel "rmax"
+plot "convergence_rmax.data" using 1:2 with linespoints \
+     title "Energy error"
+
+set output "convergence_rmin.svg"
+set logscale xy
+set xlabel "rmin"
+plot "convergence_rmin.data" using 1:2 with linespoints \
+     title "Energy error"
+
+set output "convergence_acc.svg"
+set logscale xy
+set xlabel "acc"
+plot "convergence_acc.data" using 1:2 with linespoints \
+     title "Energy error"
+
+set output "convergence_eps.svg"
+set logscale xy
+set xlabel "eps"
+plot "convergence_eps.data" using 1:2 with linespoints \
+     title "Energy error"
+
+set output

@@ -1,0 +1,11 @@
+1D test: f(x) = x^2 - 2
+root x          = 1.41421
+expected sqrt(2)= 1.41421
+f(root)         = 4.50395e-12
+
+2D test: f(x,y) = (x^2-4, y^2-9)
+root x = 2
+root y = 3
+expected approximately (2,3)
+f0(root) = 1.06581e-14
+f1(root) = 0
