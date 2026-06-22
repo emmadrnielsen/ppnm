@@ -1,0 +1,56 @@
+
+
+Task A should be run as
+make clean
+make 
+./main A
+
+What to look for is this 
+V^T A V    should be diagonal
+V D V^T    should reproduce A
+V^T V      should be the identity matrix
+V V^T      should be the identity matrix
+Some of the results are very small floating-point values
+instead of 0 but they should be interpreted as numerical zero
+
+Task_A.txt contains the results of running ./main A
+
+
+Task B is split into two parts. 
+In the first part the following is done:
+1. Reads rmax and dr
+2. Builds the Hamiltonian 
+3. Diagonalizes the Hamiltonian using Jacobi
+4. Obtains the eigenvalues and corresponding eigenvectors
+5. Saves the three lowest numerical eigenfunctions into 3 files wf0.txt, wf1.txt, and wf2.txt
+6. Compares the three lowest energies with exact results and prints them.
+
+It is run as
+./main B -rmax 30 -dr 0.2   // the values 30 and 0.2 can be 
+                            // chosen at will 
+
+this creates the files wf0.txt, wft1.txt and wf2.txt 
+They are then plotted by running 
+make plot_B
+
+The next part of task B does the following:
+1. Investigates the convergence with respect to dr by fixing rmax and testing different values of dr. The results are printed in the file dr_data.txt and plotted in the files plot_dr.svg and plot_drerror.svg
+2. Investigates the convergence with respect to rmax by fixing dr and testing different values of rmax. The results are printed in the file rmax_data.txt and plotted in the files plot_rmax.svg and plot_rmaxerror.svg. 
+
+It is run as
+make plot_convergence
+
+
+The chosen C task was this one:
+"Check that the number of operations for matrix diagonalization scales as O(n^3) (by measuring the time it takes to diagonalize a random matrix of size n)."
+
+It is run as 
+make scaling
+make plot_C
+
+
+make scaling creates a file that contains two columns. 
+The first column is N and the second column is the elapsed time. The Ns used are 20 30 40 50 60 70 80.
+The results are plotted in the scaling.svg file and they
+show that it does indeed scale as N^3. 
+
