@@ -1,0 +1,7 @@
+A = 
+4 2 
+2 3 
+
+det(A) = 8
+expected det(A) = 8
+det(A) correct = true
