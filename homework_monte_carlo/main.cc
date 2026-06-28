@@ -14,15 +14,22 @@ void run_task_A_circle()
 
         if(r2 <= 1.0) return 1.0;
         else return 0.0;
+        // this creates
+        // f(x, y) = 
+        // 1 if x^2 + y^2 <= 1
+        // 0 if x^2 + y^2 > 1.
+        // which if integrated over the square 
+        // [-1, 1] x [-1, 1], the result should
+        // be the area of the circle (π) 
     };
 
     std::vector<double> a = {-1.0, -1.0};
     std::vector<double> b = { 1.0,  1.0};
 
-    double exact = std::acos(-1.0);
+    double exact = std::acos(-1.0); // this is just pi
 
     std::cout << "# N result estimated_error actual_error 1/sqrt(N)\n";
-
+    // tries different values of N
     for(int N = 100; N <= 1000000; N *= 10){
         lcg rng(12345);
 
@@ -54,6 +61,7 @@ void run_task_A_ellipsoid()
     double by = 2.0;
     double cz = 3.0;
 
+    // define the function from the assingment:
     auto ellipsoid = [ax, by, cz](const std::vector<double>& x){
         double value =
             x[0]*x[0]/(ax*ax)
@@ -62,8 +70,11 @@ void run_task_A_ellipsoid()
 
         if(value <= 1.0) return 1.0;
         else return 0.0;
+        // returns 1 inside ellipsoid and 0 outside
     };
 
+    // this is the integration box
+    // and it is [-1, 1] x [-2, 2] x [-3, 3]
     std::vector<double> lower = {-ax, -by, -cz};
     std::vector<double> upper = { ax,  by,  cz};
 
@@ -83,6 +94,7 @@ void run_task_A_ellipsoid()
         random_double
     );
 
+    // this is the formula for the volume from the assignment
     double exact = 4.0/3.0 * std::acos(-1.0) * ax * by * cz;
 
     std::cout << "# Volume of ellipsoid\n";
@@ -143,6 +155,7 @@ void run_task_B_singular()
     double exact = 1.3932039296856768591842462603255;
     double pi = std::acos(-1.0);
 
+    // the function to integrate is this
     auto f = [pi](const std::vector<double>& x){
         double cx = std::cos(pi*x[0]);
         double cy = std::cos(pi*x[1]);

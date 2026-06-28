@@ -1,3 +1,31 @@
+The program is run by saying make clean; make
+
+The code is split into different parts in main.cc 
+The following can be run:
+./main A1
+This minimizes a basic, ideal quadratic objective function
+./main A2
+This minimizes the Rosenbrock function
+./main A3
+This minimizes the Himmelblau function.
+Note here: this function has multiple local minima, 
+so the result depends highly on the starting point.
+./main B 
+Performs a Breit-Wigner distribution fit 
+./main C 
+Compares the accuracy and steps of forward differences vs 
+central differences on the Rosenbrock function.
+
+For task C we see that the central finite-difference 
+version gives a more accurate minimum for the Rosenbrock 
+function. Both methods used 20 Newton steps, but the 
+central method ended closer to (1,1) and gave a smaller 
+function value. Therefore, in this test, the 
+central-difference method is better.
+
+
+
+Math idea:
 We have a function and we want to find a point x where the
 function is as small as possible.
 
@@ -33,4 +61,9 @@ Hessian, Newton's method reaches the minimum in one
 iteration, assuming exact artihmetic. 
 Near a sufficiently regular minimum, Newton's method
 usually converges very rapidly. 
+
+The code uses QR decomposition to solve the linear systems
+for the step vector. 
+
+More comments are in the code. 
 

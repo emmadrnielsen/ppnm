@@ -1,0 +1,125 @@
+
+The Cholesky decomposition requires the matrix to be real, symmetric and positive-definite. 
+The matrix has to be a square matrix.
+
+The Cholesky decomposition looks like this: A = LL^T
+L is a lower triangular matrix and L^T is the transpose of L and is upper triangular. 
+
+The Cholesky decomposition requires roughly 1/3n^3 arithmetic operations where QR (from the homework) uses 2n^3. So Cholesky is faster. 
+
+I am using the linear algebra stuff from previous homeworks in the linalg.h file and creating new files for the cholesky decomposition to keep the homeworks and examination project separate. 
+
+I will put the cholesky decomposition inside the same namespace (namespace pp) as the QR decomposition and the other linear algebra stuff
+
+To make sure the matrix follows all the requirements I want the constructor to test the following:
+1. Check that A is square.
+2. Check that A is symmetric.
+3. Perform the decomposition.
+4. During decomposition, check that each square-root argument is positive.
+
+(it does not need to check if the matrix is real, because my pp::matrix stores every entry as double, which is a real-valued type.)
+
+The algorithm used is the cholesky-banachiewicz algorithm which computes L row by row starting from the upper-left corner.
+
+I use the wikipedia code and help from chatgpt. 
+
+Wikipedia code:
+for (i = 0; i < dimensionSize; i++) {
+    for (j = 0; j <= i; j++) {
+        float sum = 0;
+        for (k = 0; k < j; k++)
+            sum += L[i][k] * L[j][k];
+
+        if (i == j)
+            L[i][j] = sqrt(A[i][i] - sum);
+        else
+            L[i][j] = (1.0 / L[j][j] * (A[i][j] - sum));
+    }
+}
+
+I am going to split the assignment into two different parts by adding two different tests to main.cc using void and then running them separately from inside the main function. 
+
+The first test is going to test the implementation of the Cholesky decomposition. I will do this in basically the same way as the homework for linear equations for QR decomposition, just for Cholesky decomposition instead. 
+
+1. Generate a random nxn matrix B (B is not necessarily symmetric nor positive-definite but we use B to create a symmetric positive-definite matrix A in the next step)
+2. Construct a symmetric positive-definite matrix A by doing the following A = B^TB + λI where λ is positive.
+3. Factorize it into LL^T
+4. Check that L is lower triangular
+5. Check that the diagonal elements of L are positive 
+6. Check that LL^T = A
+
+The matrix B^TB is symmetric because if we transpose it we get (B^TB)^T = B^TB
+
+(AB)^T = B^TA^T transpose rule can be found at: https://en.wikipedia.org/wiki/Transpose
+
+The matrix B^TB is positive semi-definite.
+This is because a matrix is positive semi-definite if
+x^TAx >= 0.  (rule found at https://en.wikipedia.org/wiki/Definite_matrix)
+Inserting B^TB gives 
+x^TB^TBx = (Bx)^T(Bx) = ||Bx||^2 >= 0
+
+Adding λI guarantees x^TAx = ||Bx||^2 + λ||x||^2 > 0
+for every nonzero x. Therefore, A is positive-definite.
+
+The test for this code is run by running
+make 
+./main 1
+
+
+The next part of the project is to implement the linear equation solver, calculation of determinant and the calculation of the inverse matrix. 
+
+I am making these implementations in a similar way as for the QR decomposition. 
+
+To solve linear equations of the form Ax = b, we insert the decomposition
+LL^Tx = b
+
+Introduce an intermediate vector y = L^Tx, so that
+Ly = b
+
+Ly = b is solved using forward-substitution. 
+The equation Ly = b gives 
+L(0, 0)y0 = b0
+L(1, 0)y0 + L(1, 1)y1 = b1
+L(2, 0)y0 + L(2, 1)y1 + L(2,2)y2 = b2
+and so on depending on the size of the matrix.
+The first equation only contains y0, the second contains y0 and y1 so we solve from top to bottom. 
+The code explanation is written as comments in the code. 
+
+L^Tx = y is solved using back-substitution. 
+The equation L^Tx = y gives for a 3x3 matrix
+L(0, 0)x0 + L(1, 0)x1 + L(2, 0)x2 = y0
+L(1, 1)x1 + L(2, 1)x2 = y1
+L(2, 2)x2 = y2
+which is the opposite from before so now we need to solve
+from the bottom. 
+
+Now for the determinant
+det(A) = det(LL^T)
+from wikipedia we have
+det(LL^T) = det(L)det(L^T)    (https://en.wikipedia.org/wiki/Determinant)
+we also have 
+det(L) = det(L^T)
+so we can write
+det(A) = det(L^2)
+Since L is a triangular matrix the determinant of L is simply
+the product of the entries of its diagonal. 
+so det(A) = det(L)det(L) = (product of diagonal entries)^2.
+
+Now we need to calculate the inverse matrix A^-1.
+It needs to satisfy AA^-1 = I.
+If we name the columns of A^-1 z_j then we need to solve
+Az_j = e_j
+where e_i are the columns of the identity matrix aka
+the ith unit vector. 
+This is a linear equation so we can use our linear 
+equation solver. 
+
+For testing each of these (linear equation solver, determinant solver and inverse matrix solver) I am going to do the following:
+
+For linear equation solver:
+1. Generate a random square matrix B of modest size. 
+2. Construct a symmetric positive-definite matrix A = 
+3. Generate a random vector b of the same size B^TB + λI where λ is positive.
+4. Factorize A into A = LL^T
+5. Solve LL^Tx = b
+6. Check that Ax = b

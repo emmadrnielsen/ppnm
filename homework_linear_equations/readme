@@ -1,22 +1,41 @@
-For task A the code should be run as such:
+Everything is rebuilt with
+make clean
+make
+
+
+For task A the code can be run manually as such:
 make clean
 make 
 ./main A
 
-For task B the code should be run in the same way:
+Task A tests the QR decomposition:
+- A2 checks that a tall matrix A can be factorized as A = QR
+- it checks that R is upper triangular
+- it checks that Q^T Q is the identity
+- A3 uses QR to solve Ax = b
+- A4 computes the determinant from the QR decomposition
+
+For task B the code can be run manually in the same way:
 make clean 
 make
 ./main B
 
-For problem C you should run it as 
+Task B uses the QR decomposition to compute the inverse matrix A^{-1}.
+It checks that A A^{-1} = I and A^{-1} A = I.
+
+For task C it can be run as 
 make clean
 make
 make out.times.data
-gnuplot times.gpi
+gnuplot plot_C.gpi
 
-The files Problem_A.txt and Problem_B.txt are the results of running ./main A and ./main B respectively. 
+The files Task_A.txt and Task_B.txt are the results of running ./main A and ./main B respectively. 
 
-plot_C.svg is the result of task C. It is the runtime as function of N
+QR_runtime.svg is the result of task C. It is the runtime as function of N
+
+Task C measures how long the QR decomposition takes for random NxN matrices.
+The timing data is saved in out.times.data and plotted with plot_C.gpi.
+The expected scaling is approximately O(N^3).
 
 AI was used for the code. 
 

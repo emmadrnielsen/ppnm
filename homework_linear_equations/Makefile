@@ -11,19 +11,23 @@ LDLIBS += -lstdc++ -lm
 
 .PHONY: all clean
 
-all: main
+all: Task_A.txt Task_B.txt QR_runtime.svg
 
-main: main.o
-	$(CXX) $(CXXFLAGS) $^ $(LDLIBS) -o $@
+Task_A.txt: main
+	./main A > $@
 
-main.o: main.cc linalg.h
+Task_B.txt: main
+	./main B > $@
 
-out.times.data: main 
+out.times.data: main
 	> $@
 	for N in $$(seq 200 100 1000); do \
 		/usr/bin/time --format "$$N %e" --output $@ --append \
 		./$< C $$N > /dev/null 2>>err ; \
-	done 
+	done
+
+QR_runtime.svg: out.times.data plot_C.gpi
+	gnuplot plot_C.gpi
 
 clean:
-	rm -f main *.o out.times.data err
+	rm -f main *.o Task_A.txt Task_B.txt out.times.data QR_runtime.svg err fit.log

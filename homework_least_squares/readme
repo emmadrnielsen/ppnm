@@ -1,0 +1,41 @@
+This code has all the tasks in the same
+main function unlike most of the other homeworks
+so it is simply run as 
+make 
+./main 
+
+and the plots are plotted as
+gnuplot plot.gp 
+gnuplot uncertaintiesplot.gp 
+
+The code tests the QR decomposition, uses QR to solve 
+least-squares problems, fits radioactive decay data, 
+computes parameter uncertainties, and makes plots.
+
+Task A1 tests the QR decomposition by checking that R 
+is upper triangular, Q^T Q is the identity, and Q R 
+reproduces the original matrix.
+
+Task A2 tests the least-squares routine on artificial 
+data generated from y = 2 + 3x + x^2.
+
+Task A3 fits radioactive decay data. Since the decay 
+model is y = a exp(-lambda t), the code takes logarithms 
+and fits ln(y) = ln(a) - lambda t.
+The uncertainty in ln(y) is δln(y) = δy/y because the 
+derivative of ln(y) is 1/y.
+
+Task A4 writes decay_data.txt and decay_fit.txt, which are 
+used by plot.gp to make plot.svg.
+
+Task B computes the covariance matrix of the fit 
+parameters and uses it to estimate uncertainties on the 
+fitted parameters and on the half-life.
+
+Task C writes decay_band.txt, which is used by 
+uncertaintiesplot.gp to plot the best fit together with 
+curves made from shifted fit parameters.
+
+AI was used for coding.
+
+The results of running ./main are displayed in results.txt

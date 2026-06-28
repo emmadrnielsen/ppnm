@@ -1,4 +1,42 @@
+The program is run by running
+make clean
+make
 
+The individual tasks are split into these parts
+./main A_debug
+./main A_rosenbrock
+./main A_himmelblau
+./main B
+./main B2
+
+A_debug tests Newton's method on simple systems where the roots are known.
+
+A_rosenbrock finds the minimum of the Rosenbrock function by solving grad f = 0.
+
+A_himmelblau finds minima of the Himmelblau function by solving grad f = 0 from several different starting points.
+
+B solves the hydrogen ground-state problem by shooting: for each trial energy E, the ODE is integrated and Newton's method is used to find M(E)=f_E(rmax)=0.
+
+B2 studies convergence by varying rmax, rmin, acc, and eps.
+
+The hydrogen wave-function is written to hydrogen.data.
+The convergence study writes:
+convergence_rmax.data
+convergence_rmin.data
+convergence_acc.data
+convergence_eps.data
+
+The plots are made with:
+gnuplot plot_hydrogen.gpi
+gnuplot plot_convergence.gpi
+
+roots.h and roots.cc contain Newton's method and the numerical Jacobian.
+ode.h and ode.cc contain the Runge-Kutta stepper and adaptive ODE driver.
+linalg.h contains the vector, matrix, and QR solver used to solve J deltax = -f(x).
+main.cc contains the actual tests/tasks.
+
+
+Explanations:
 We want to solve a system of nonlinear equations.
 The goal is to find a vector x such that every component of
 the f(x) vector is zero. (f0(x)=0, f1(x)=0, f2(x)=0 etc.)
@@ -41,7 +79,7 @@ a differential equation.
 It is a second-order ODE because it contains f''(r).
 
 The boundary conditions are 
-f(r → 0) = r-r², (prove this)
+f(r → 0) = r-r²,
 f(r → ∞) = 0 .
 
 These two boundary conditions can only be satisfied for 
@@ -108,3 +146,31 @@ Summary:
 6. The root should be close to E0 = -0.5
 7. Plot the final numerical wave-function and compare 
     with f0(r) = re^(-r)
+
+
+Task C makes Newton's method more efficient by reusing 
+the Jacobian matrix and makes the backtracking smarter by
+choosing the step length using quadratic interpolation.
+
+In the first version, a new Jacobian matrix was created
+inside every Newton iteration. In task C this was changed 
+so the Jacobian matrix is allocated only once before the 
+iteration loop:
+pp::matrix J(x.size(), x.size());
+
+Then, in each iteration, the same matrix is filled with
+finite-difference values. This avoids repreatedly
+allocating new memory. 
+
+The line search was also changed from simple halving of
+the step length to quadratic interpolation. After Newton
+finds a step Dx, the code tries
+z = x + alpha*Dx
+
+If this step does not reduce the norm of f(x) enough, the
+code builds a quadratic appoximation to the merit function 
+phi(alpha) = 1/2 ||f(x + alpha*Dx)||²
+
+and uses the minimum of that quadratic to choose a better
+value of alpha. If the quadratic estimate is not useful,
+the code falls back to reducing alpha.

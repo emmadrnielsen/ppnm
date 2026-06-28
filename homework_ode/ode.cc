@@ -38,7 +38,7 @@ std::tuple<pp::vector, pp::vector> rkstep12(
     return std::make_tuple(yh, dy); 
 }
 
-// Opgave A2:
+// Opgave A2: also basically copied from the assignment
 std::tuple<std::vector<double>, std::vector<pp::vector>> driver(
     std::function<pp::vector(double, pp::vector)> f, 
     double a, 

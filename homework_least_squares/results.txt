@@ -1,0 +1,49 @@
+Task A1: Tests QR_decomp for tall matrix:
+
+R upper triangular: PASS
+Q^T Q = I: PASS
+Q R = A: PASS
+
+
+Task A2: Makes least-squares fit:
+
+The number of data points is set to 10
+
+The points lie on a straight line y = 2 + 3x + x^2
+
+The set of functions fk is 1, x, and x^2
+
+Returns the vector of the best fit coefficients:
+
+lsfit test: 
+c0 = 2
+c1 = 3
+c2 = 1
+
+
+Task A3: Investigate radioactive decay
+
+Fit of ln(y) = ln(a) - lambda*t 
+c0 = ln(a) = 4.95808
+c1 = -lambda = -0.170369
+a = exp(c[0]) = 142.321
+lambda = -c[1] = 0.170369
+
+
+Task A4: plot experimental data and best fit
+
+T_1/2 (from fit) = 4.0685 days 
+T_1/2 (modern value) = 3.632 days
+The plot is plotted with the command gnuplot plot.gp
+
+
+Task B:
+
+For Task B I print the same as earlier but with uncertainties now:
+c[0] = 4.95808 ± 0.0353897
+c[1] = -0.170369 ± 0.00714494
+T_1/2 = 4.0685
+T_1/2_err = 0.170624
+The modern value is 3.632 days, which is not at all within the uncertainty
+Task C: best fit. Plot by writing gnuplot uncertaintiesplot.gp
+

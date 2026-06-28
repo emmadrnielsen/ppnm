@@ -1,0 +1,14 @@
+Integral exp(-x) from 0 to infinity
+scipy result = 0.9999999997018258
+exact = 1.0
+actual error = 2.9817415203581277e-10
+scipy error estimate = 5.670650096415526e-05
+function calls = 75
+
+Integral exp(-x*x) from -infinity to infinity
+scipy result = 1.7724538509067376
+exact = 1.7724538509055159
+actual error = 1.2216894162975223e-12
+scipy error estimate = 4.316364671314715e-06
+function calls = 150
+

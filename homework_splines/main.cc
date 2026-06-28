@@ -9,7 +9,6 @@
 // the problems on its own. 
 void run_task_A()
 {
-
 // Task A3:
     std::vector<double> x; // Initialiserer x og y som to tomme vektorer
     std::vector<double> y;
@@ -86,8 +85,27 @@ void debug_qspline()
         std::cout << "\n\n";
     };
 
+    // Manually calculated expected coefficients:
+    //
+    // y = 1:
+    // p = {0, 0, 0, 0}
+    // Expected b = {0, 0, 0, 0}
+    // Expected c = {0, 0, 0, 0}
+    //
+    // y = x:
+    // p = {1, 1, 1, 1}
+    // Expected b = {1, 1, 1, 1}
+    // Expected c = {0, 0, 0, 0}
+    //
+    // y = x^2:
+    // p = {3, 5, 7, 9}
+    // Expected b = {2, 4, 6, 8}
+    // Expected c = {1, 1, 1, 1}
+    //
+    // These values can be compared with the program output below.
+
     print_bc(s_const, "Test y = 1");
-    print_bc(s_linear, "Tesst y = x");
+    print_bc(s_linear, "Test y = x");
     print_bc(s_square, "Test y = x^2");
 }
 

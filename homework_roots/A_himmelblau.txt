@@ -1,0 +1,30 @@
+Himmelblau minima by solving grad f = 0
+
+start 1
+x = 3
+y = 2
+f(x,y) = 0
+grad_x = 0
+grad_y = 0
+
+start 2
+x = -2.80512
+y = 3.13131
+f(x,y) = 9.65881e-27
+grad_x = -1.11755e-12
+grad_y = 6.19034e-14
+
+start 3
+x = -3.77931
+y = -3.28319
+f(x,y) = 3.15544e-30
+grad_x = 2.68536e-14
+grad_y = -3.55271e-15
+
+start 4
+x = 3.58443
+y = -1.84813
+f(x,y) = 0
+grad_x = 0
+grad_y = 0
+

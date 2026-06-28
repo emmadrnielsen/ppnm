@@ -8,9 +8,9 @@
 struct ann {
     std::size_t n; // number of hidden neurons
     std::function<double(double)> f; // activation function
-    std::function<double(double)> df;
-    std::function<double(double)> ddf;
-    std::function<double(double)> integral_f;
+    std::function<double(double)> df; // first derivative of activation function
+    std::function<double(double)> ddf; // second derivative of activation function
+    std::function<double(double)> integral_f; // anti-derivative of activation function
 
     pp::vector p; // network parameters
 

@@ -25,6 +25,9 @@ std::tuple<double,double> plainmc(
     const std::vector<double>& b,
     int N,
     std::function<double()> random_double
+    // I use random double because it does not
+    // matter which generator the random number
+    // comes from. 
 )
 {
     int dim = a.size(); // samme som i opgaven bare i c++ sprog
@@ -46,6 +49,8 @@ std::tuple<double,double> plainmc(
             // chatgpt. 
             double r = random_double();
             x[k] = a[k] + r*(b[k] - a[k]);
+            // this line converts a random number between 0 and 1
+            // to a random number between ak and bk
         }
 
         double fx = f(x);
@@ -102,6 +107,7 @@ std::vector<int> prime_numbers(int n) // like notes
     return primes;
 } // præcis ligesom i lecture notes
 
+// også fra lecture notes:
 std::vector<double> halton(int n, int dim)
 {
     std::vector<int> bases = prime_numbers(dim);
@@ -115,6 +121,9 @@ std::vector<double> halton(int n, int dim)
 }
 
 
+// This is the quasi-random integrator and it
+// works similarly to plainmc except it uses
+// halton points. 
 std::tuple<double,double> quasimc(
     std::function<double(const std::vector<double>&)> f,
     const std::vector<double>& a,
@@ -124,6 +133,7 @@ std::tuple<double,double> quasimc(
 {
     int dim = a.size();
 
+    // first we calculate the volume like in plainmc
     double V = 1.0;
     for(int i = 0; i < dim; i++){
         V *= b[i] - a[i];
@@ -135,9 +145,12 @@ std::tuple<double,double> quasimc(
     std::vector<double> x(dim);
 
     for(int i = 1; i <= N; i++){
-        std::vector<double> u1 = halton(i, dim);
-        std::vector<double> u2 = halton(i + N, dim); // second sequence estimate
+        // computes two separate estimates:
+        std::vector<double> u1 = halton(i, dim); // halton points
+        std::vector<double> u2 = halton(i + N, dim); // shifted halton points
+                                                     // second sequence estimate
 
+        // map the points from unit cube to integration interval:
         for(int k = 0; k < dim; k++){
             x[k] = a[k] + u1[k]*(b[k] - a[k]);
         }
@@ -152,6 +165,7 @@ std::tuple<double,double> quasimc(
     double result1 = V*sum1/N;
     double result2 = V*sum2/N;
 
+    // the final result is the average of the two estimates
     double result = 0.5*(result1 + result2);
     double error = std::abs(result1 - result2);
 
@@ -197,14 +211,14 @@ std::tuple<double,double> stratifiedmc(
 {
     int dim = a.size();
 
-    if(N <= nmin){
+    if(N <= 2*nmin){
         return plainmc(f, a, b, N, random_double);
     }
-
-    double V = 1.0;
-    for(int k = 0; k < dim; k++){
-        V *= b[k] - a[k];
-    }
+    // the 2 is there so that later when we want to
+    // split the remaining points between left and right
+    // there is always going to be at least one point
+    // for both left and right. This is to prevent
+    // plainmc breaking because it divides by 0. 
 
     std::vector<double> x(dim);
 
@@ -282,17 +296,18 @@ std::tuple<double,double> stratifiedmc(
     // Divide remaining points proportional to sub-standard deviations
     int remaining = N - nmin;
 
-    // I opgaven står der sub-variances men chatgpt siger at
-    // sqrt er et bedre valg fordi MC skalerer med standard deviation
-    double sigma_left = std::sqrt(var_left[split_dim]); 
-    double sigma_right = std::sqrt(var_right[split_dim]);
+    // The assignment says to divide points proportional
+    // to sub-variances, so we use var_left and var_right
+    // directly
+    double weight_left = var_left[split_dim];
+    double weight_right = var_right[split_dim];
 
     int N_left;
     int N_right;
 
-    if(sigma_left + sigma_right > 0){
+    if(weight_left + weight_right > 0.0){
         N_left = static_cast<int>(
-            remaining * sigma_left/(sigma_left + sigma_right)
+            remaining*weight_left/(weight_left + weight_right)
         );
     }
     else{
@@ -301,7 +316,7 @@ std::tuple<double,double> stratifiedmc(
 
     N_right = remaining - N_left;
 
-    // Avoid starving one side completely
+    // Avoid putting all points in one side
     if(N_left < 1){
         N_left = 1;
         N_right = remaining - 1;

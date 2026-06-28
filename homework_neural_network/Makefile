@@ -1,6 +1,10 @@
 CXX = g++
 CXXFLAGS = -std=c++23 -O2 -Wall -Wextra -pedantic
 
+.PHONY: all clean plot plotB plotC
+
+all: main plot plotB plotC
+
 main: main.o neural.o minimization.o
 	$(CXX) $(CXXFLAGS) -o main main.o neural.o minimization.o
 

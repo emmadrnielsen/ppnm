@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <iostream>
 
+// Task A:
 ann::ann(
     std::size_t number_of_neurons,
     std::function<double(double)> activation,
@@ -18,12 +19,17 @@ ann::ann(
       ddf(activation_second_derivative),
       integral_f(activation_antiderivative),
       p(3 * number_of_neurons, 0.0)
+      // all a b and w values are initializes as 0
+      // but that wont work for b because b is used 
+      // in division Fp(x) = ∑i f((x-ai)/bi)*wi
+      // so we need to initialize b to 1 instead of 0:
 {
     for (std::size_t i = 0; i < n; ++i) {
-        p[3 * i + 1] = 1.0;
+        p[3 * i + 1] = 1.0; 
     }
 }
 
+// this function implements Fp(x) = ∑i f((x-ai)/bi)*wi
 double ann::response(double x) const
 {
     double sum = 0.0;
@@ -77,6 +83,10 @@ void ann::train(const pp::vector& x, const pp::vector& y)
     double spacing =
         n > 1 ? interval / static_cast<double>(n - 1) : interval;
 
+    // initialize neurons across the interval. 
+    // The neuron centers a_i are spread from xmin to xmax.
+    // The widths b_i are set from the spacing.
+    // The weights w_i start at 1.0
     for (std::size_t i = 0; i < n; ++i) {
         double fraction =
             n > 1
@@ -104,6 +114,7 @@ void ann::train(const pp::vector& x, const pp::vector& y)
         return sum;
     };
 
+    // analytical gradient
     auto cost_gradient = [this, &x, &y](
         const pp::vector& parameters
     ) {
@@ -146,7 +157,8 @@ void ann::train(const pp::vector& x, const pp::vector& y)
 
         return gradient;
     };
-
+    
+    // use minimizer to train the network:
     pp::minimization_result result =
         pp::newton(cost, cost_gradient, p, 1e-5, 1000);
 
@@ -159,6 +171,7 @@ void ann::train(const pp::vector& x, const pp::vector& y)
     p = result.x;
 }
 
+// Task B:
 double ann::derivative(double x) const
 {
     double sum = 0.0;

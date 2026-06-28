@@ -1,0 +1,64 @@
+The code is compiled with
+
+make clean
+make
+
+make creates all data files and plots
+
+The different tasks are split into different parts
+
+./main A1
+./main A2
+./main B
+./main C
+
+Task A1 tests the response function of the neural network using manually chosen parameters.
+
+Task A2 trains the network to approximate the function
+cos(5x - 1) exp(-x^2)
+on the interval [-1,1]. The result is written to network.data and plotted together with the training points.
+
+Task B uses the trained network to calculate the function, its first derivative, second derivative, and antiderivative. The results are written to derivatives.data.
+
+Task C trains the network to solve the differential equation
+F''(x) + F(x) = 0
+with boundary conditions F(0)=0 and F'(0)=1.
+The exact solution is sin(x). The result is written to ode_network.data.
+
+network.data contains x, exact function value, and network approximation.
+
+training.data contains the training points used in Task A2.
+
+derivatives.data contains x, exact function, network approximation, exact derivative, network derivative, exact second derivative, network second derivative, and network antiderivative.
+
+ode_network.data contains x, exact sin(x), network approximation, and the differential-equation residual F''(x)+F(x).
+
+The class to keep the neural network is taken from the assignment.
+The class declaration is in neural.h and the member functions are implemented in neural.cc.
+
+The parameter vector p stores the neuron parameters like this:
+p[3*i] = a_i      // shift 
+p[3*i + 1] = b_i  // scale
+p[3*i + 2] = w_i  // weight
+
+The network formula from the homework is 
+Fp(x) = ∑i f((x-ai)/bi)*wi
+
+The activation function is
+f(x) = x exp(-x^2)
+
+The first derivative, second derivative, and antiderivative of this function
+are also passed to the network. These are needed for Task B, where the
+network derivative and antiderivative are evaluated, and for Task C, where
+the network is used to solve a differential equation involving F''(x).
+
+more comments are in the code 
+
+The function response(double x) evaluates the neural network.
+
+The function train(x, y):
+We want to minimize equation 3 in the lecture notes. 
+The factor 1/n is omitted because multiplying by a constant does not change where the minimum is. (it only changes the size of the cost and gradient by a constant factor.)
+The training function minimizes the sum of squared residuals using the Newton minimizer implemented in minimization.cc.
+For Task A/B an analytical gradient of the cost function is used.
+

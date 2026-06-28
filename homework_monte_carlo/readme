@@ -1,0 +1,95 @@
+main.cc contains the different tests and chooses which task to run.
+mc.h contains the declarations of the Monte Carlo functions.
+mc.cc contains the implementation of plain Monte Carlo, the LCG generator,
+the Halton sequence, quasi-Monte Carlo, and recursive stratified sampling.
+
+The code is compiled by running
+
+make clean
+make
+
+Separately each task is run like this:
+Task A3 is run with
+
+./main A_circle > circle_errors.txt
+gnuplot plot_circle_errors.gpi
+
+Task A4 is run with
+
+./main A_ellipsoid
+
+Task B quasi-random circle comparison is run with
+
+./main B_quasi > quasi_errors.txt
+gnuplot quasi_errors.gpi
+
+The difficult singular integral is run with
+
+./main B_singular > singular_results.txt
+
+Task C is run with
+
+./main C
+
+For task A1 and A2 the monte carlo integration is 
+implemented using the code written in the assignment. 
+I used chatgpt to translate the code to c++. 
+
+For task A3 I will calculate the area of a unit circle and
+plot the estimated error and the actual error as functions
+of the number of sampling points and check whether the 
+actual error scales as 1/sqrt(N).
+This is done in main.cc where I created this test
+as a void run_task_A_circle() so I can run it from the main
+function separately from the other tests. 
+
+We define a function f that is equal to 1 when
+x^2 + y^2 <= 1 and equal to 0 when x^2 + y^2 > 1.
+Integrating this function from -1 to 1 in x and y
+should give pi which is the area of the unit circle. 
+
+The script tries different values of N and the results are
+plotted with the script plot_circle_errors.gpi
+
+Task A4 says to calculate the volume of a 
+three-dimensional ellipsoid. The program compares
+the Monte Carlo result with the exact value of the
+volume. 
+
+Task B says to implement a multidimensional MC integrator
+that uses low-discrepancy (quasi-random) sequences. 
+
+For the van der corput sequence I use the code from the
+lecture notes just translated to c++
+
+For the multidimensional Halton sequence we need a list
+of n prime numbers which we generate using the 
+code also from the lecture notes just translated to c++.. 
+
+The halton sequence code is also from the lecture notes.
+
+In run_task_B_quasi_circle() the plain MC is compared with
+the quasi-random MC of the unit circle. The results 
+are plotted using quasi_errors.gpi
+
+Next the assignment says to calculate a specific
+difficult integral. 
+The following three methods are tested to calculate the
+integral:
+1. LCG - pseudo-random generator
+2. std::mt19937
+3. Halton quasi-random sequence
+the results are in singular_results.txt
+All three methods are close to the exact value but
+not perfect. 
+
+For task C we are asked to implement recursive 
+stratified sampling. 
+The method first samples a number of points in the full integration region.
+Then it checks which coordinate direction gives the largest sub-variance.
+The region is split in that direction, and the remaining sample points are
+distributed between the two sub-regions. The algorithm is then called
+recursively on the two smaller regions.
+
+In main.cc this is tested on the unit circle integral and compared with
+plain Monte Carlo.

@@ -265,10 +265,171 @@ void run_task_B3()
     }
 }
 
+
+void run_task_C()
+{
+    // First we define the function that will be passed
+    // to the ODE solver. The ODE solver solves equations
+    // of the form z' = f(t, z). We call the function
+    // f for three_body in this case.
+    // The function takes variable t which is the time
+    // and z which contains all positions and velocities
+    // of the three bodies. 
+    auto three_body = [](double t, pp::vector z)
+    {
+        // the acceleration does not explicityly depend on
+        // time so we just write this to avoid warnings.
+        (void)t; 
+
+        // The function z has 12 entries. The first
+        // 6 are velocities and the last 6 are 
+        // positions. 
+
+        // Velocities
+        double vx1 = z[0];
+        double vy1 = z[1];
+
+        double vx2 = z[2];
+        double vy2 = z[3];
+
+        double vx3 = z[4];
+        double vy3 = z[5];
+
+        // Positions
+        double x1 = z[6];
+        double y1 = z[7];
+
+        double x2 = z[8];
+        double y2 = z[9];
+
+        double x3 = z[10];
+        double y3 = z[11];
+
+        // since z has 12 components, so does z'.
+        // initialize vector with 12 entries that
+        // stores the derivative of z. 
+        pp::vector dzdt(12);
+
+        // Helper for acceleration contribution from body j on body i.
+        // The body being accelerated is at poisition (xi, yi).
+        // The body attracting it is at position (xj, yj).
+        auto acceleration = [](double xi, double yi, double xj, double yj) {
+            double dx = xj - xi;
+            double dy = yj - yi;
+            double r = std::sqrt(dx*dx + dy*dy); // distance between the bodies
+
+            // using the equation from the assignment
+            // v_i' = sum (r_j - r_i)/|r_j - r_i|^3
+            // we can write the equation of motion like
+            // this:
+            double ax = dx/(r*r*r);
+            double ay = dy/(r*r*r);
+
+            // For a pair of bodies, the acceleration
+            // contribution is 
+            // a = (r_j - r_i)/|r_j - r_i|^3
+            // (we ignore G and m because the assignment
+            // says to set them to 1.)
+            // We can then make the vector a like this:
+            pp::vector a(2);
+            a[0] = ax;
+            a[1] = ay;
+
+            return a;
+        };
+
+        // Acceleration contributions:
+        // Accelerations on body 1:
+        pp::vector a12 = acceleration(x1, y1, x2, y2);
+        pp::vector a13 = acceleration(x1, y1, x3, y3);
+
+        // Accelerations on body 2:
+        pp::vector a21 = acceleration(x2, y2, x1, y1);
+        pp::vector a23 = acceleration(x2, y2, x3, y3);
+
+        // Accelerations on body 3:
+        pp::vector a31 = acceleration(x3, y3, x1, y1);
+        pp::vector a32 = acceleration(x3, y3, x2, y2);
+
+        // Velocity derivatives = acceleration
+        dzdt[0] = a12[0] + a13[0]; // vx1'
+        dzdt[1] = a12[1] + a13[1]; // vy1'
+
+        dzdt[2] = a21[0] + a23[0]; // vx2'
+        dzdt[3] = a21[1] + a23[1]; // vy2'
+
+        dzdt[4] = a31[0] + a32[0]; // vx3'
+        dzdt[5] = a31[1] + a32[1]; // vy3'
+
+        // Position derivatives = velocity
+        dzdt[6] = vx1;  // x1'
+        dzdt[7] = vy1;  // y1'
+
+        dzdt[8] = vx2;  // x2'
+        dzdt[9] = vy2;  // y2'
+
+        dzdt[10] = vx3; // x3'
+        dzdt[11] = vy3; // y3'
+
+        return dzdt;
+        // Now the driver knows how the whole system
+        // changes per time
+    };
+
+    // create the initial state vector 
+    pp::vector zinit(12);
+
+    // Standard figure-eight initial conditions
+    zinit[6] = -0.97000436; // x1
+    zinit[7] =  0.24308753; // y1
+
+    zinit[8] =  0.97000436; // x2
+    zinit[9] = -0.24308753; // y2
+
+    zinit[10] = 0.0; // x3
+    zinit[11] = 0.0; // y3
+
+    zinit[0] = -0.466203685; // vx1
+    zinit[1] = -0.43236573;  // vy1
+
+    zinit[2] = -0.466203685; // vx2
+    zinit[3] = -0.43236573;  // vy2
+
+    zinit[4] = 0.93240737; // vx3
+    zinit[5] = 0.86473146; // vy3
+
+    double period = 6.3259;
+    // integrating from 0 to period should make 
+    // the bodies complete one full cycle
+
+    // now we call the ODE driver. 
+    auto [tlist, zlist] = driver(
+        three_body,
+        0.0,
+        period,
+        zinit,
+        0.01,
+        1e-5,
+        1e-5
+    );
+
+    std::cout << "# t x1 y1 x2 y2 x3 y3\n";
+
+    for(std::size_t i = 0; i < tlist.size(); i++){
+        std::cout << tlist[i] << " "
+                  << zlist[i][6] << " "
+                  << zlist[i][7] << " "
+                  << zlist[i][8] << " "
+                  << zlist[i][9] << " "
+                  << zlist[i][10] << " "
+                  << zlist[i][11] << "\n";
+    }
+}
+
 int main(int argc, char* argv[])
 {
     if(argc < 2){
-        std::cerr << "Usage: ./main A3, A4, or B1 or B2 or B3\n";
+        std::cerr << "Usage: ./main A3, A4, or B1 or B2 or B3 or C\n";
         return 1;
     }
 
@@ -289,9 +450,12 @@ int main(int argc, char* argv[])
     else if(task == "B3"){
         run_task_B3();
     }
+    else if(task == "C"){
+        run_task_C();
+    }
     else{
         std::cerr << "Unknown task: " << task << "\n";
-        std::cerr << "Use A3 or A4\n";
+        std::cerr << "Use A3 or A4 or B1 or B2 or B3 or C\n";
         return 1;
     }
 

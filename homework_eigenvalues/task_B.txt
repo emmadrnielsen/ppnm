@@ -1,0 +1,4 @@
+State   Numerical energy   Exact energy
+1       -0.495098             -0.5
+2       -0.124689             -0.125
+3       -0.0553608             -0.0555556

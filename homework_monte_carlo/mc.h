@@ -28,7 +28,7 @@ std::tuple<double,double> plainmc(
     std::function<double(const std::vector<double>&)> f,
     const std::vector<double>& a,
     const std::vector<double>& b,
-    int N,
+    int N, 
     std::function<double()> random_double
 
 ); // funktionen returnerer to tal; 

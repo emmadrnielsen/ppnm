@@ -1,0 +1,11 @@
+Forward differences:
+x = 0.999874
+y = 0.999746
+f = 1.6091e-08
+steps = 20
+
+Central differences:
+x = 0.999999
+y = 0.999998
+f = 7.56519e-12
+steps = 20

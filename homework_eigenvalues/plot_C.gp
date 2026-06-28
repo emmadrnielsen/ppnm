@@ -13,6 +13,7 @@ a = 1e-7
 b = 3.0
 
 f(x) = a*x**b
+set fit logfile "fit_C.log"
 fit f(x) "scaling_data.txt" using 1:2 via a,b
 
 plot "scaling_data.txt" using 1:2 with linespoints \

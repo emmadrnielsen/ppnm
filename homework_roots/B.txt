@@ -1,0 +1,5 @@
+Hydrogen ground state
+Numerical energy = -0.499975
+Exact energy     = -0.5
+Absolute error   = 2.48973e-05
+M(E0)            = 2.91516e-08

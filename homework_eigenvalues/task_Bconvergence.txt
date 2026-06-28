@@ -1,0 +1,16 @@
+Calculating convergence with respect to dr...
+dr = 0.5, e0 = -0.472135
+dr = 0.3, e0 = -0.489228
+dr = 0.2, e0 = -0.495097
+dr = 0.1, e0 = -0.498755
+dr = 0.05, e0 = -0.499687
+
+Calculating convergence with respect to rmax...
+rmax = 5, e0 = -0.495135
+rmax = 6, e0 = -0.498023
+rmax = 8, e0 = -0.498731
+rmax = 10, e0 = -0.498755
+rmax = 12, e0 = -0.498756
+rmax = 15, e0 = -0.498756
+
+Created dr_data.txt and rmax_data.txt

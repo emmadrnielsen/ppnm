@@ -78,6 +78,7 @@ pp::vector random_vector(std::size_t n) {
 int main() {
 
     // Task A1: Tester QR_decomp for tall matrix
+    std::cout << "Task A1: Tests QR_decomp for tall matrix:\n\n";
     std::size_t n = 6;
     std::size_t m = 3;
 
@@ -100,15 +101,17 @@ int main() {
     pp::matrix QR = Q * R;
 
     std::cout << "Q R = A: "
-            << (approx_equal(QR, A) ? "PASS" : "FAIL") << "\n";
+            << (approx_equal(QR, A) ? "PASS" : "FAIL") << "\n\n\n";
 
     
 
     // Task A2: Routine that makes least squares fit
-    
+    std::cout << "Task A2: Makes least-squares fit:\n\n";
+
     // First we need to define the data to fit
 
     // Decide the number of data points:
+    std::cout << "The number of data points is set to 10\n\n";
     int N = 10;
 
     // The data set is a vector {xi, yi, dyi}
@@ -116,6 +119,7 @@ int main() {
 
     // For simple test we have the points lie on a straight line
     // Model: y = 2 + 3x + x^2
+    std::cout << "The points lie on a straight line y = 2 + 3x + x^2\n\n";
     for (int i = 0; i < N; i++) {
         xi[i] = i;
         yi[i] = 2.0 + 3.0 * xi[i] + xi[i]*xi[i];
@@ -128,6 +132,7 @@ int main() {
     // Then we need to define the set of functions fk
 
     // The set of functions fk is also a vector and it consists of functions:
+    std::cout << "The set of functions fk is 1, x, and x^2\n\n";
     std::vector<std::function<double(double)>> fk = {
         [](double x){return 1.0;}, // This gives a warning because x is not used
         [](double x){return x;},
@@ -139,14 +144,16 @@ int main() {
 
     auto [c, Cov] = pp::lsfit(fk, xi, yi, dyi); // Hører til opgave B1
 
+    std::cout << "Returns the vector of the best fit coefficients:\n\n";
     std::cout << "lsfit test: \n";
     std::cout << "c0 = " << c[0] << "\n";
     std::cout << "c1 = " << c[1] << "\n";
-    std::cout << "c2 = " << c[2] << "\n";
+    std::cout << "c2 = " << c[2] << "\n\n\n";
 
 
 
     // Task A3: Investigate decay data
+    std::cout << "Task A3: Investigate radioactive decay\n\n";
 
     // The data set:
     pp::vector t{1, 2, 3, 4, 6, 9, 10, 13, 15};
@@ -181,10 +188,11 @@ int main() {
     std::cout<<"Fit of ln(y) = ln(a) - lambda*t \n";
     std::cout<<"c0 = ln(a) = " << c3[0] << "\n";
     std::cout<<"c1 = -lambda = " << c3[1] << "\n";
-    std::cout<<"a = exp(c[0]) = " << std::exp(c[0]) << "\n";
-    std::cout<<"lambda = -c[1] = " << -c3[1] << "\n";
+    std::cout<<"a = exp(c[0]) = " << std::exp(c3[0]) << "\n";
+    std::cout<<"lambda = -c[1] = " << -c3[1] << "\n\n\n";
 
     // Task A4: plot
+    std::cout << "Task A4: plot experimental data and best fit\n\n";
 
     // Data for plotting
     std::ofstream datafile("decay_data.txt");
@@ -204,13 +212,16 @@ int main() {
 
     // The modern value:
     std::cout << "T_1/2 (modern value) = 3.632 days" << "\n";
+    std::cout << "The plot is plotted with the command gnuplot plot.gp\n\n\n";
 
 
     // Opgave B1: uncertainties
     // har lavet pp::vector c3 om til auto [c3, Cov3] længere oppe
     // fordi jeg har lavet lsfit op til en tuple
 
-    std::cout << "For opgave B printer jeg bare det samme som tidligere men med usikkerheder nu:" << "\n";
+    // std::cout << "For opgave B printer jeg bare det samme som tidligere men med usikkerheder nu:" << "\n";
+    std::cout << "Task B:\n\n";
+    std::cout << "For Task B I print the same as earlier but with uncertainties now:" << "\n";
 
     for (std::size_t i = 0; i < c3.size(); ++i) {
         double dc3 = std::sqrt(Cov3(i,i));
@@ -219,7 +230,6 @@ int main() {
                   << " ± "
                   << dc3 << "\n";
     }
-
 
     // Opgave B2: Error propagation for halflife
 
@@ -238,6 +248,7 @@ int main() {
     // Opgave C: Quality of uncertainties
 
     // Uncertainties:
+    std::cout << "Task C: best fit. Plot by writing gnuplot uncertaintiesplot.gp\n\n";
     double dc3_0 = std::sqrt(Cov3(0,0));
     double dc3_1 = std::sqrt(Cov3(1,1));
 

@@ -1,0 +1,28 @@
+Integral of sqrt(x)
+result    = 0.666954
+exact     = 0.666667
+error     = 0.000287242
+tolerance = 0.00166695
+status    = OK
+
+Integral of 1/sqrt(x)
+result    = 1.99996
+exact     = 2
+error     = 3.84999e-05
+tolerance = 0.00299996
+status    = OK
+
+Integral of sqrt(1-x^2)
+result    = 0.785812
+exact     = 0.785398
+error     = 0.00041433
+tolerance = 0.00178581
+status    = OK
+
+Integral of log(x)/sqrt(x)
+result    = -3.99992
+exact     = -4
+error     = 8.2941e-05
+tolerance = 0.00499992
+status    = OK
+
