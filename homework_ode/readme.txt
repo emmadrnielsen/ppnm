@@ -24,8 +24,10 @@ gnuplot plot.gpi
 
 Note to self: Numerical u should follow cos(x), and numerical u' should follow -sin(x).
 
+AI was used for coding in general. 
 
 
+Code explanation:
 This homework is about solving ordinary differential equations numerically.
 
 The main idea is that higher order differential equations are rewritten as systems

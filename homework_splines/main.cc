@@ -4,9 +4,7 @@
 #include <vector>
 #include <cmath>
 
-// Chatgpt was used as help for all the parts but with prompts.
-// So it is not necessarily a representation of how CHATGPT would solve
-// the problems on its own. 
+// Chatgpt was used as help for all the parts.
 void run_task_A()
 {
 // Task A3:

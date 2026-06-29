@@ -39,6 +39,8 @@ erf.svg                   plot of erf(z)
 erf_convergence.svg       convergence plot for erf(1)
 
 
+AI was used for coding in general
+
 
 
 The following is a description of what the code does:

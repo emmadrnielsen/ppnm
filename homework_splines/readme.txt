@@ -3,6 +3,7 @@ make clean
 make
 
 Code explanations are written as comments in the code. 
+AI was used for help with coding in general. 
 
 The different tasks are 
 ./main A 

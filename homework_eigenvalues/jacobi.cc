@@ -12,7 +12,7 @@ void timesJ(pp::matrix& A, std::size_t p, std::size_t q, double theta) {
     double s = std::sin(theta);
     
     for (std::size_t i = 0; i < A.rows(); ++i) {
-        // bruger A.rows() i stedet for A.size1() (en anden måde at skrive rows på basically) 
+        // bruger A.rows() i stedet for A.size() (en anden måde at skrive rows på basically) 
         // (Jeg har definieret A.rows() til at være number of rows i min linalg.h fil så det
         // er den jeg bruger her)
         double aip = A(i, p); // bruger () i stedet for [] fordi min matrix class
@@ -39,7 +39,7 @@ void Jtimes(pp::matrix& A, std::size_t p, std::size_t q, double theta) {
 
 
 // Opgave A.3:
-JacobiResult jacobi(pp::matrix A, double eps, int maxSweeps) {  //chat synes at functionen skal hedde jacobiDiagonalize
+JacobiResult jacobi(pp::matrix A, double eps, int maxSweeps) {  
     // Her har vi the function definition af den function declaration vi lavede i .h filen
     // Function declaration: return_type function_name(parameters)
     // JacobiResult er return_typen og den refererer til den struct i jacobi.h filen som returnerer 

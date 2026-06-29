@@ -35,6 +35,8 @@ ode.h and ode.cc contain the Runge-Kutta stepper and adaptive ODE driver.
 linalg.h contains the vector, matrix, and QR solver used to solve J deltax = -f(x).
 main.cc contains the actual tests/tasks.
 
+AI was used in general. 
+
 
 Explanations:
 We want to solve a system of nonlinear equations.

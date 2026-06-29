@@ -1,10 +1,14 @@
 This code has all the tasks in the same
 main function unlike most of the other homeworks
-so it is simply run as 
-make 
-./main 
 
-and the plots are plotted as
+The code and created files can be recompiled as
+make clean
+make
+
+Individually you can run
+./main
+
+and the plots can be individually plotted as
 gnuplot plot.gp 
 gnuplot uncertaintiesplot.gp 
 
@@ -36,6 +40,6 @@ Task C writes decay_band.txt, which is used by
 uncertaintiesplot.gp to plot the best fit together with 
 curves made from shifted fit parameters.
 
-AI was used for coding.
+AI was used for coding in general for all tasks.
 
 The results of running ./main are displayed in results.txt

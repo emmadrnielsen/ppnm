@@ -25,7 +25,7 @@ central-difference method is better.
 
 
 
-Math idea:
+General math idea for minimization:
 We have a function and we want to find a point x where the
 function is as small as possible.
 

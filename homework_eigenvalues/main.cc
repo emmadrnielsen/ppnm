@@ -163,7 +163,7 @@ void run_task_B(int argc, char** argv){
     // std::cout << "e[0] = " << e[0] << "\n";
 }
 
-// Made by chatgpt:
+// Made with chatgpt:
 void run_task_B_convergence()
 {
     std::cout << "Calculating convergence with respect to dr...\n";

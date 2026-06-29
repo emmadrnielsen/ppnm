@@ -25,7 +25,7 @@ double integrate(
 
 // Opgave A3:
 double erf_integral(double z,
-                    double acc = 1e-6, // chatgpt likes 1e-6 better than 0.001 for some reason
+                    double acc = 1e-6, // chatgpt likes 1e-6 better than 0.001
                     double eps = 1e-6);
 
 

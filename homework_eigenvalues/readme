@@ -6,6 +6,9 @@ make clean
 make 
 ./main A
 
+AI was used for coding. 
+A lot of code explanations are written in the code as comments. 
+
 the Jacobi method only works for real symmetric matrices 
 and to test the code I use one predefined symmetric 
 matrix A and one random symmetric matrix B
