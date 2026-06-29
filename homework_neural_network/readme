@@ -1,64 +1,246 @@
-The code is compiled with
+To rebuild everything from scratch, run
 
 make clean
 make
 
 make creates all data files and plots
 
-The different tasks are split into different parts
+The tasks can also be run individually as
 
 ./main A1
 ./main A2
 ./main B
 ./main C
 
-Task A1 tests the response function of the neural network using manually chosen parameters.
+The plot targets can be run individually as
 
-Task A2 trains the network to approximate the function
-cos(5x - 1) exp(-x^2)
-on the interval [-1,1]. The result is written to network.data and plotted together with the training points.
+make plot
+make plotB
+make plotC
 
-Task B uses the trained network to calculate the function, its first derivative, second derivative, and antiderivative. The results are written to derivatives.data.
+main.cc: Contains the task functions run_task_A1(), 
+run_task_A2(), run_task_B(), and run_task_C(). The 
+command-line argument chooses which task to run.
 
-Task C trains the network to solve the differential equation
-F''(x) + F(x) = 0
-with boundary conditions F(0)=0 and F'(0)=1.
-The exact solution is sin(x). The result is written to ode_network.data.
+neural.h: Declares the ann struct. The network stores the 
+activation function, its first derivative, its second 
+derivative, its antiderivative, and the network parameter 
+vector p.
 
-network.data contains x, exact function value, and network approximation.
+neural.cc: Implements the ann constructor, response(x), 
+train(x,y), derivative(x), second_derivative(x), and 
+antiderivative(x).
 
-training.data contains the training points used in Task A2.
+minimization.h / minimization.cc: Contains the Newton 
+minimization routines used for training. There is a 
+numerical-gradient version, a central-difference version, 
+and an overload that accepts an analytic gradient. 
+The analytic-gradient overload is used for interpolation 
+training in tasks A and B.
 
-derivatives.data contains x, exact function, network approximation, exact derivative, network derivative, exact second derivative, network second derivative, and network antiderivative.
+linalg.h: Contains the pp::vector, pp::matrix, and QR 
+decomposition code used by the minimizer.
 
-ode_network.data contains x, exact sin(x), network approximation, and the differential-equation residual F''(x)+F(x).
+Makefile: Builds the executable and regenerates plots 
+and data files.
 
-The class to keep the neural network is taken from the assignment.
-The class declaration is in neural.h and the member functions are implemented in neural.cc.
+Generated files:
+    task_A1.txt          output from the manual response test
+    network.data         x, exact g(x), trained network F_p(x)
+    training.data        training points used for task A2
+    derivatives.data     function, derivatives, and antiderivative data
+    ode_network.data     ODE solution and residual data
+    network.png          plot for task A
+    derivatives.png      plot for task B
+    ode_network.png      plot for task C
 
-The parameter vector p stores the neuron parameters like this:
-p[3*i] = a_i      // shift 
-p[3*i + 1] = b_i  // scale
-p[3*i + 2] = w_i  // weight
+./main A1
+Runs a manual test of the neural-network response function.
+It creates a network, assigns parameters to three neurons by hand,
+and prints x and F_p(x) for x from -1 to 1. No training is done in A1.
 
-The network formula from the homework is 
-Fp(x) = ∑i f((x-ai)/bi)*wi
 
-The activation function is
-f(x) = x exp(-x^2)
+AI was used while developing, debugging, and explaining the code.
 
-The first derivative, second derivative, and antiderivative of this function
-are also passed to the network. These are needed for Task B, where the
-network derivative and antiderivative are evaluated, and for Task C, where
-the network is used to solve a differential equation involving F''(x).
 
-more comments are in the code 
+Summary of the explanations discussed with ai:
+The network is a three-layer feedforward network with one input, several
+hidden neurons, and one output. The output is
 
-The function response(double x) evaluates the neural network.
+    F_p(x) = sum_i w_i f((x - a_i)/b_i)
 
-The function train(x, y):
-We want to minimize equation 3 in the lecture notes. 
-The factor 1/n is omitted because multiplying by a constant does not change where the minimum is. (it only changes the size of the cost and gradient by a constant factor.)
-The training function minimizes the sum of squared residuals using the Newton minimizer implemented in minimization.cc.
-For Task A/B an analytical gradient of the cost function is used.
+where f is the activation function. For neuron i,
+
+    a_i = shift / center
+    b_i = scale / width
+    w_i = weight
+
+The parameter vector p stores the parameters neuron by neuron:
+
+    p[3*i]     = a_i
+    p[3*i + 1] = b_i
+    p[3*i + 2] = w_i
+
+The activation function used in the tasks is the Gaussian wavelet
+
+    f(z) = z exp(-z^2)
+
+Its derivatives and antiderivative are
+
+    f'(z)  = (1 - 2z^2) exp(-z^2)
+    f''(z) = (4z^3 - 6z) exp(-z^2)
+    integral f(z) dz = -1/2 exp(-z^2)
+
+These functions are passed to the ann constructor so that the same network
+can evaluate F_p(x), F_p'(x), F_p''(x), and an antiderivative.
+
+
+
+Task A:
+Task A trains the network to approximate
+
+    g(x) = cos(5x - 1) exp(-x^2)
+
+on the interval [-1,1]. The function is sampled at 15 equally spaced
+points, and the network uses 5 hidden neurons.
+
+The cost function is
+
+    C(p) = sum_k (F_p(x_k) - y_k)^2
+
+The factor 1/N from the lecture notes is omitted because multiplying the
+cost by a constant does not change the position of the minimum.
+
+The initial neuron centers a_i are distributed evenly over the data
+interval. The scales b_i are initialized to the spacing between the
+centers. The weights w_i are initialized to 1.
+
+The reason b_i cannot be initialized to 0 is that b_i appears in the
+denominator of (x-a_i)/b_i. The reason w_i is initialized to 1 is not that
+w_i = 0 is forbidden. It is because w_i multiplies the whole neuron
+response. If w_i is initially zero, that neuron is switched off, and
+changing a_i or b_i initially has no effect on that neuron's contribution.
+
+The training uses an analytic gradient of the cost function. For
+
+    z_i = (x - a_i)/b_i
+
+the needed derivatives are
+
+    dF/dw_i = f(z_i)
+    dF/da_i = -(w_i/b_i) f'(z_i)
+    dF/db_i = -(w_i z_i/b_i) f'(z_i)
+
+The analytic gradient is used because numerical gradients were not accurate
+enough for this problem. The Hessian in the minimizer is still estimated
+numerically from the gradient.
+
+Task A1:
+    A manual test of response(x). The first three neurons are assigned
+    hand-picked parameters and the network response is printed.
+
+Task A2:
+    Trains the network and writes network.data and training.data. The plot
+    network.png compares the exact function, the trained network, and the
+    training points.
+
+
+Task B: 
+After training, the network can also return analytic derivatives. From
+
+    F_p(x) = sum_i w_i f(z_i),     z_i = (x-a_i)/b_i
+
+the chain rule gives
+
+    F_p'(x)  = sum_i (w_i/b_i) f'(z_i)
+    F_p''(x) = sum_i (w_i/b_i^2) f''(z_i)
+
+If A_f'(z) = f(z), then an antiderivative of the network is
+
+    A_p(x) = sum_i w_i b_i A_f(z_i)
+
+The antiderivative is only defined up to an arbitrary constant. In the plot
+I subtract the value at x=-1, so the plotted antiderivative starts at zero.
+
+Task B writes derivatives.data and make plotB creates derivatives.png.
+The plot compares the trained network to the exact function and compares
+the first and second derivatives to the exact derivatives. The second
+derivative is less accurate than the function itself because differentiation
+amplifies fitting errors.
+
+
+Task C:
+Task C uses the network to approximate a solution of
+
+    y'' + y = 0
+
+on
+
+    [0, 2*pi]
+
+with boundary/initial conditions
+
+    y(0) = 0
+    y'(0) = 1
+
+The exact solution is
+
+    y(x) = sin(x)
+
+For this equation the differential-equation residual is
+
+    R_p(x) = F_p''(x) + F_p(x)
+
+The cost function is
+
+    C(p) = integral_a^b R_p(x)^2 dx
+           + alpha (F_p(c) - y_c)^2
+           + beta  (F_p'(c) - y'_c)^2
+
+In the code,
+
+    a = 0
+    b = 2*pi
+    c = 0
+    y_c = 0
+    y'_c = 1
+    alpha = 100
+    beta = 100
+
+The integral is approximated with the trapezoidal rule using 40
+subintervals. Task C uses the central-difference Newton minimizer.
+
+The minimizer reaches the maximum number of iterations in the current run,
+so it prints
+
+    Converged = false
+
+This does not mean the result is unusable. It only means that the gradient
+stopping criterion was not reached before max_steps. The boundary conditions
+are still satisfied accurately, and the plot shows that the network follows
+sin(x) well. The remaining error is shown in the residual plot
+F_p''(x)+F_p(x).
+
+Task C writes ode_network.data and make plotC creates ode_network.png.
+
+
+Comments on cost
+Evaluating the trained network costs O(n), where n is the number of hidden
+neurons. Evaluating its first derivative, second derivative, or
+antiderivative also costs O(n).
+
+Training is much more expensive. For interpolation, one cost evaluation
+uses all training points and all neurons. The analytic gradient costs
+approximately O(N n), where N is the number of training points. A purely
+numerical gradient with 3n parameters requires many full cost evaluations
+and is therefore much more expensive.
+
+For the ODE problem, each cost evaluation also has to evaluate the residual
+at all integration points, so the cost grows with both the number of
+neurons and the number of integration points.
+
+
+
+
+
 

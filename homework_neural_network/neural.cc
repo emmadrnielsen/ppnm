@@ -19,7 +19,7 @@ ann::ann(
       ddf(activation_second_derivative),
       integral_f(activation_antiderivative),
       p(3 * number_of_neurons, 0.0)
-      // all a b and w values are initializes as 0
+      // all a b and w values are initialized as 0
       // but that wont work for b because b is used 
       // in division Fp(x) = ∑i f((x-ai)/bi)*wi
       // so we need to initialize b to 1 instead of 0:
@@ -35,9 +35,9 @@ double ann::response(double x) const
     double sum = 0.0;
 
     for (std::size_t i = 0; i < n; ++i) {
-        double ai = p[3 * i];
-        double bi = p[3 * i + 1];
-        double wi = p[3 * i + 2];
+        double ai = p[3 * i]; // location of wavelet
+        double bi = p[3 * i + 1]; // width of the wavelet
+        double wi = p[3 * i + 2]; // height and sign of wavelet's contribution
 
         if (bi == 0.0) {
             throw std::invalid_argument(
@@ -88,8 +88,8 @@ void ann::train(const pp::vector& x, const pp::vector& y)
     // The widths b_i are set from the spacing.
     // The weights w_i start at 1.0
     for (std::size_t i = 0; i < n; ++i) {
-        double fraction =
-            n > 1
+        double fraction =     // this prevents division by n-1
+            n > 1             // when the network has only one neuron. 
                 ? static_cast<double>(i)
                     / static_cast<double>(n - 1)
                 : 0.5;
@@ -100,6 +100,9 @@ void ann::train(const pp::vector& x, const pp::vector& y)
     }
 
     auto cost = [this, &x, &y](
+        // this: allows access to the current network and its p
+        // &x: uses the original training vector without copying it
+        // &y: uses the original target vector without copying it
         const pp::vector& parameters
     ) {
         p = parameters;

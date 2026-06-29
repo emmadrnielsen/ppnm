@@ -1,14 +1,12 @@
 CXX = g++
 CXXFLAGS = -std=c++23 -O2 -Wall -Wextra -pedantic
 
-.PHONY: all clean plot plotB plotC
-
-all: main plot plotB plotC
+all: main A1_txt network.png derivatives.png ode_network.png
 
 main: main.o neural.o minimization.o
 	$(CXX) $(CXXFLAGS) -o main main.o neural.o minimization.o
 
-main.o: main.cc neural.h linalg.h
+main.o: main.cc neural.h minimization.h linalg.h
 	$(CXX) $(CXXFLAGS) -c main.cc
 
 neural.o: neural.cc neural.h minimization.h linalg.h
@@ -17,7 +15,15 @@ neural.o: neural.cc neural.h minimization.h linalg.h
 minimization.o: minimization.cc minimization.h linalg.h
 	$(CXX) $(CXXFLAGS) -c minimization.cc
 
-plot: network.data training.data
+
+A1_txt: main
+	./main A1 > A1_txt
+
+
+network.data training.data: main
+	./main A2
+
+network.png: network.data training.data
 	gnuplot -e "\
 	set terminal pngcairo size 900,600; \
 	set output 'network.png'; \
@@ -29,10 +35,11 @@ plot: network.data training.data
 	'network.data' using 1:3 with lines title 'network', \
 	'training.data' using 1:2 with points pointtype 7 title 'training data'"
 
-network.data training.data: main
-	./main A2
 
-plotB: derivatives.data
+derivatives.data: main
+	./main B
+
+derivatives.png: derivatives.data
 	gnuplot -e "\
 	set terminal pngcairo size 1000,1200; \
 	set output 'derivatives.png'; \
@@ -48,10 +55,11 @@ plotB: derivatives.data
 	plot 'derivatives.data' using 1:8 with lines title 'network antiderivative'; \
 	unset multiplot"
 
-derivatives.data: main
-	./main B
 
-plotC: ode_network.data
+ode_network.data: main
+	./main C
+
+ode_network.png: ode_network.data
 	gnuplot -e "\
 	set terminal pngcairo size 900,800; \
 	set output 'ode_network.png'; \
@@ -65,9 +73,19 @@ plotC: ode_network.data
 	plot 'ode_network.data' using 1:4 with lines title \"F''(x)+F(x)\"; \
 	unset multiplot"
 
-ode_network.data: main
-	./main C
+
+plot: network.png
+
+plotB: derivatives.png
+
+plotC: ode_network.png
+
 
 clean:
-	rm -f main *.o network.data training.data network.png \
-	      derivatives.data derivatives.png ode_network.data ode_network.png
+	rm -f main *.o \
+	      A1_txt \
+	      network.data training.data network.png \
+	      derivatives.data derivatives.png \
+	      ode_network.data ode_network.png
+
+.PHONY: all clean plot plotB plotC

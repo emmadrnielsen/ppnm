@@ -10,9 +10,8 @@
 // Opgave A
 void run_task_A1()
 {
-    // auto wavelet = [](double x) {
-    //     return std::cos(5.0 * x) * std::exp(-x * x);
-    // }; // Cos(5*x-1)*Exp(-x*x)
+    // The activation function is chosen to be a
+    // gaussian wavelet f(x) = x * exp(-x^2)
     auto wavelet = [](double x) {
         return x * std::exp(-x * x);
     };
@@ -63,7 +62,7 @@ void run_task_A1()
 void run_task_A2()
 {
     auto wavelet = [](double x) {
-        return x * std::exp(-x * x);
+        return x * std::exp(-x * x); // gaussian wavelet
     };
 
     auto wavelet_derivative = [](double x) {
@@ -118,6 +117,8 @@ void run_task_A2()
 
     std::ofstream output("network.data");
 
+    // the output columns are 
+    // x    exact-function    neural-network
     output << "# x exact network\n";
 
     constexpr std::size_t plot_points = 201;
