@@ -1,6 +1,8 @@
 CXX = g++
 CXXFLAGS = -std=c++23 -Wall -Wextra -pedantic
 
+.PHONY: all clean
+
 all: main decomp_check.txt linear_check.txt determinant_check.txt inverse_check.txt
 
 main: main.o cholesky.o

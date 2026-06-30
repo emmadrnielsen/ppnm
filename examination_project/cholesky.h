@@ -15,5 +15,5 @@ struct cholesky {
     matrix inverse() const;
 };
 
-}; // namespace pp
+} // namespace pp
 

@@ -101,7 +101,8 @@ cholesky::cholesky(const matrix& A)
         }
 
         // Now we want to solve L^Tx = y. 
-        // Since 
+        // Since L^T is upper triangular, we start from the last row
+        // and move upwards.
         vector x(n, 0.0);
 
         // Back substitution: solve L^T x = y

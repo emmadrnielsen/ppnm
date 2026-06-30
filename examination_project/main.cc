@@ -3,8 +3,9 @@
 #include <cmath>
 #include <iostream>
 #include <random>
+#include <string>
 
-void run_task_1()
+void run_decomposition_test()
 {
     // size of matrix is chosen to be 4.
     const std::size_t n = 4;
@@ -103,7 +104,7 @@ void run_task_1()
 }
 
 
-void run_task_2()
+void run_linear_solver_test()
 {
     const std::size_t n = 4;
     const double lambda = 1.0;
@@ -178,7 +179,7 @@ void run_task_2()
 
 }
 
-void run_task_3()
+void run_determinant_test()
 {
     const double tolerance = 1e-10;
 
@@ -208,7 +209,7 @@ void run_task_3()
               << correct_determinant << "\n";
 }
 
-void run_task_4()
+void run_inverse_test()
 {
     const std::size_t n = 3;
     const double tolerance = 1e-10;
@@ -264,23 +265,23 @@ int main(int argc, char** argv) {
                   << "  ./main decomposition\n"
                   << "  ./main linear\n"
                   << "  ./main determinant\n"
-                  << "  ./inverse\n\n";
+                  << "  ./main inverse\n\n";
         return 1;
     }
 
     const std::string task = argv[1];
 
     if (task == "decomposition") {
-        run_task_1();
+        run_decomposition_test();
     }
     else if (task == "linear"){
-        run_task_2();
+        run_linear_solver_test();
     }
     else if (task == "determinant"){
-        run_task_3();
+        run_determinant_test();
     }
     else if (task == "inverse"){
-        run_task_4();
+        run_inverse_test();
     }
     else {
         std::cerr << "Unknown task: " << task << "\n";
