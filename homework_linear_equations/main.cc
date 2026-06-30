@@ -144,7 +144,9 @@ void run_task_A4(){
     //std::size_t n = 4;
     //pp::matrix A = random_matrix(n,n);
 
-    // Option 2:  (jeg får +2 ud i stedet for -2 (som er svaret) men ifølge chat er det fordi det(R) ikke altid er lig med det(A), men det(A)=det(Q)det(R) i stedet)
+    // Option 2:  (giver +2 ud i stedet for -2 fordi det(R) 
+    // ikke altid er lig med det(A), men det(A)=det(Q)det(R).
+    // og det(Q) er enten -1 eller 1. Så det(R) = |det(A)|
     pp::matrix A(2,2);
     A(0,0)=1; A(0,1)=2;
     A(1,0)=3; A(1,1)=4;
@@ -199,7 +201,8 @@ void run_task_C(std::size_t N){
     pp::matrix A = random_matrix(N, N);
     pp::qr decomp(A);
 
-    //  prevent the compiler from optimizing everything away
+    // Print one value from the decomposition so the compiler cannot
+    // remove the QR calculation as unused during the timing test.
     std::cout << decomp.R(0,0) << "\n";
 }
 

@@ -134,7 +134,7 @@ int main() {
     // The set of functions fk is also a vector and it consists of functions:
     std::cout << "The set of functions fk is 1, x, and x^2\n\n";
     std::vector<std::function<double(double)>> fk = {
-        [](double x){return 1.0;}, // This gives a warning because x is not used
+        [](double){return 1.0;},
         [](double x){return x;},
         [](double x){return x*x;}
     };

@@ -30,13 +30,16 @@ C compares the estimated integration error with the actual error.
 
 The files that are generated are:
 
-erf_data.txt              data for erf.svg
-erf_convergence.txt       data for erf_convergence.svg
-B2compare.txt             output from ./main B2
-infinite_tests.txt        output from ./main B4
-error_estimate.txt        output from ./main C
-erf.svg                   plot of erf(z)
-erf_convergence.svg       convergence plot for erf(1)
+A2_tests.txt                output from ./main A2
+erf_data.txt                data for erf.svg
+erf_convergence.txt         data for erf_convergence.svg
+B2compare.txt               output from ./main B2
+pythoncompare.txt           output from python3 compare_scipy.py 
+pythoncompare_infinite.txt  output from python3 compare_scipy_infinite.py
+infinite_tests.txt          output from ./main B4
+error_estimate.txt          output from ./main C
+erf.svg                     plot of erf(z)
+erf_convergence.svg         convergence plot for erf(1)
 
 
 AI was used for coding in general
@@ -149,6 +152,20 @@ The derivative is
 Again, the minus sign is handled by reversing the limits so
 the integral gives the second formula in the question
 ∫abdx f(x) = ∫0πdθ f( (a+b)/2+(b-a)/2*Cos(θ) )*Sin(θ)*(b-a)/2
+
+Opgave B3:
+The assignment asks for a comparison with Python/numpy routines. I compare
+my results with Python's scipy.integrate.quad, which is a standard adaptive
+integration routine from SciPy.
+
+The script compare_scipy.py uses scipy.integrate.quad to calculate the
+same endpoint-singular integrals as in task B. The output is redirected
+into pythoncompare.txt.
+
+The script compare_scipy_infinite.py uses scipy.integrate.quad to calculate
+the same infinite-limit integrals as in task B4. The output is redirected
+into pythoncompare_infinite.txt.
+
 
 Opgave B4:
 Ligning 61 in lecture notes

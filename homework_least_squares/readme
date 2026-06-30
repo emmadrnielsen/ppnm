@@ -26,8 +26,9 @@ data generated from y = 2 + 3x + x^2.
 Task A3 fits radioactive decay data. Since the decay 
 model is y = a exp(-lambda t), the code takes logarithms 
 and fits ln(y) = ln(a) - lambda t.
-The uncertainty in ln(y) is δln(y) = δy/y because the 
-derivative of ln(y) is 1/y.
+Since Y = ln(y), error propagation gives
+δY = |d ln(y)/dy| δy = (1/y)δy.
+Therefore δln(y) = δy/y.
 
 Task A4 writes decay_data.txt and decay_fit.txt, which are 
 used by plot.gp to make plot.svg.

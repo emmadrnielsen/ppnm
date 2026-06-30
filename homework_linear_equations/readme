@@ -15,6 +15,13 @@ Task A tests the QR decomposition:
 - A3 uses QR to solve Ax = b
 - A4 computes the determinant from the QR decomposition
 
+When calculating the determinant the Gram-Schmidt QR 
+decomposition with positive diagonal R gives |det(A)|.
+For example, for A = [[1,2],[3,4]], det(A) = -2 but det(R) = 2.
+This is because det(A) = det(Q)det(R) and det(Q) can
+be either 1 or -1. So the result of det(R) is not 
+exactly det(A) but in fact |det(A)|.
+
 For task B the code can be run manually in the same way:
 make clean 
 make

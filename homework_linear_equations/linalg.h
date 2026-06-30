@@ -173,7 +173,9 @@ public:
         return T;
     }
 
-    // gets the columns of the matrix I think
+    // Return column j of the matrix.
+    // The matrix is stored as a vector of column-vectors,
+    // so cols_[j] is the j-th column.
     vector& col(std::size_t j) {
         return cols_[j];
     }
@@ -222,6 +224,11 @@ struct qr{
 
         matrix V = A; // working copy
 
+        // Modified Gram-Schmidt QR decomposition.
+        // V is a working copy of A.
+        // At step i, column i is normalized to become Q_i.
+        // Then the projection of all later columns onto Q_i is removed.
+        // The projection coefficients are stored in R(i,j).
         for (std::size_t i = 0; i < m; i++){
             // R(i, i) = norm of column i
             double norm = V.col(i).norm();
@@ -246,6 +253,10 @@ struct qr{
         if (b.size() !=n)
             throw std::invalid_argument("dimension mismatch in solve");
 
+        // Since A = QR, the system Ax = b becomes QRx = b.
+        // Multiplying by Q^T gives Rx = Q^T b,
+        // because Q^T Q = I.
+
         // y = Q^T b
         vector y = Q.transpose() * b;
 
@@ -267,6 +278,10 @@ struct qr{
         return x;
     }
 
+    // For this modified Gram-Schmidt implementation, R has positive diagonal
+    // elements because R(i,i) is chosen as a norm.
+    // Therefore the product of the diagonal elements gives |det(A)|.
+    // It does not necessarily give the signed determinant.
     double det() const {
         if (Q.rows() != Q.cols())
             throw std::invalid_argument(
@@ -281,6 +296,9 @@ struct qr{
         return d;
     }
 
+    // The inverse is found column by column.
+    // To find column j of A^{-1}, solve A x = e_j,
+    // where e_j is the j-th unit vector.
     matrix inverse() const {
         std::size_t n = Q.rows();
         std::size_t m = Q.cols();
