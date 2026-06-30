@@ -47,7 +47,7 @@ plot_convergence: dr_data.txt rmax_data.txt
 	gnuplot plot_rmax.gp
 	gnuplot plot_rmaxerror.gp
 
-Ns = 20 30 40 50 60 70 80
+Ns = 40 60 80 100 120 140 160 180
 
 .PHONY: scaling plot_C
 
@@ -62,10 +62,11 @@ plot_C: scaling_data.txt
 
 clean:
 	rm -f *.o main
-	rm -f task_A.txt
+	rm -f task_A.txt task_B.txt task_Bconvergence.txt
 	rm -f wf0.txt wf1.txt wf2.txt
 	rm -f dr_data.txt rmax_data.txt scaling_data.txt
 	rm -f wavefunctions.svg plot_dr.svg plot_drerror.svg plot_rmax.svg plot_rmaxerror.svg scaling.svg
+	rm -f fit.log fit_C.log
 
 
 

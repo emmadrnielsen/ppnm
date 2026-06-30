@@ -67,10 +67,10 @@ JacobiResult jacobi(pp::matrix A, double eps, int maxSweeps) {
                 for (std::size_t q = p+1; q < n; q++) {
 
                     double apq = A(p,q);
-                    if (std::abs(apq) < eps) continue; // added so eps doesn't show a warning
-                                                        // forstår ikke helt hvorfor den skal
-                                                        // være der men chat siger jeg ikke
-                                                        // skal slette det så jeg lader være lol
+                    if (std::abs(apq) < eps) continue; // If the off-diagonal element is
+                                                       // is already smaller then the 
+                                                       // chosen tolerance, we skip the
+                                                       // rotation. 
 
                     double app = A(p,p);
                     double aqq = A(q,q);
@@ -106,6 +106,9 @@ JacobiResult jacobi(pp::matrix A, double eps, int maxSweeps) {
     for (std::size_t i = 0; i < n; ++i) {
         pairs[i] = {eigenvalues[i], i};
     }
+    
+    // Sort eigenvalues in increasing order and move the corresponding
+    // eigenvector columns in the same way.
     std::sort(pairs.begin(), pairs.end());
 
     pp::vector sortedVals(n);

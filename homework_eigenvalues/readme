@@ -37,13 +37,39 @@ It is run as
 ./main B -rmax 30 -dr 0.2   // the values 30 and 0.2 can be 
                             // chosen at will 
 
+
+After the Jacobi diagonalization, the eigenvalues are 
+sorted in increasing order and the eigenvector columns are 
+reordered in the same way. This makes e[0] the lowest 
+energy state, e[1] the first excited state, and so on.
+
 this creates the files wf0.txt, wf1.txt and wf2.txt 
 They are then plotted by running 
 make plot_B
 
+The eigenvectors returned by the matrix diagonalization 
+are normalized as sum_i V_i^2 = 1. The physical radial 
+wavefunction should satisfy the continuous normalization 
+integral ∫ |f(r)|^2 dr = 1. On the grid this becomes
+sum_i |f(r_i)|^2 dr = 1, so the numerical wavefunction is 
+obtained as f(r_i) = V_i/sqrt(dr).
+
+In the wavefunction plot, the numerical n=2 eigenfunction 
+is multiplied by -1. This is not a correction of the 
+physics, but only a sign convention. If v is an 
+eigenvector, then -v is also an eigenvector with the same 
+eigenvalue. The sign was chosen so that the numerical 
+curve is easier to compare with the analytical one.
+
 The next part of task B does the following:
 1. Investigates the convergence with respect to dr by fixing rmax and testing different values of dr. The results are printed in the file dr_data.txt and plotted in the files plot_dr.svg and plot_drerror.svg
 2. Investigates the convergence with respect to rmax by fixing dr and testing different values of rmax. The results are printed in the file rmax_data.txt and plotted in the files plot_rmax.svg and plot_rmaxerror.svg. 
+
+The error plots use the exact hydrogen ground-state energy 
+e0 = -0.5.
+Therefore the plotted error is |e0 + 0.5|. As dr becomes 
+smaller and rmax becomes larger, the numerical 
+ground-state energy should approach -0.5.
 
 It is run as
 make plot_convergence
@@ -56,7 +82,7 @@ make scaling
 make plot_C
 
 make scaling creates a file that contains two columns. 
-The first column is N and the second column is the elapsed time. The Ns used are 20 30 40 50 60 70 80.
-The data is created by running ./main C 20, ./main C 30 etc. This is done via the Makefile. 
-The results are plotted in scaling.svg. The fit estimates the exponent b in time = a*N^b. For ideal O(N^3) scaling, b should be close to 3.
+The first column is N and the second column is the elapsed time. The Ns used are 40 60 80 100 120 140 160 180.
+The data is created by running ./main C 40, ./main C 60 etc. This is done via the Makefile. 
+The results are plotted in scaling.svg. The fit estimates the exponent b in time = a*N^b. For ideal O(N^3) scaling, b should be close to 3, which is also what we see. 
 
