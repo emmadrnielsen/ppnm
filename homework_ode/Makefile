@@ -11,10 +11,10 @@ all: main harmonic_oscillator.svg pendulum.svg orbit_B1.svg orbit_B2.svg orbit_B
 main: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o main $(OBJS)
 
-main.o: main.cc ode.h
+main.o: main.cc ode.h linalg.h
 	$(CXX) $(CXXFLAGS) -c main.cc
 
-ode.o: ode.cc ode.h
+ode.o: ode.cc ode.h linalg.h
 	$(CXX) $(CXXFLAGS) -c ode.cc
 
 data.txt: main

@@ -3,18 +3,19 @@ The program is run by saying make clean; make
 The code is split into different parts in main.cc 
 The following can be run:
 ./main A1
-This minimizes a basic, ideal quadratic objective function
+This minimizes a basic, ideal quadratic objective function (it is just a sanity test)
 ./main A2
 This minimizes the Rosenbrock function
 ./main A3
 This minimizes the Himmelblau function.
 Note here: this function has multiple local minima, 
 so the result depends highly on the starting point.
-./main B 
+./main B < higgs.data.txt > fit.data.txt 2> fit.log
 Performs a Breit-Wigner distribution fit 
 ./main C 
 Compares the accuracy and steps of forward differences vs 
-central differences on the Rosenbrock function.
+central differences on the Rosenbrock function and the 
+Himmelblau function. 
 
 For task C we see that the central finite-difference 
 version gives a more accurate minimum for the Rosenbrock 
@@ -23,6 +24,18 @@ central method ended closer to (1,1) and gave a smaller
 function value. Therefore, in this test, the 
 central-difference method is better.
 
+For the Himmelblau function, both methods converged to the minimum (3,2) in
+4 Newton steps. The final function values were both very small, but the central
+finite-difference version gave a slightly smaller value.
+
+
+Part A:
+A2.txt shows that the forward-difference Newton method solves Rosenbrock.
+A3.txt shows that the forward-difference Newton method solves Himmelblau.
+
+Part C:
+C.txt repeats the forward-difference method and compares it directly with the
+central-difference method on the same functions.
 
 
 General math idea for minimization:

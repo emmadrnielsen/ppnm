@@ -3,10 +3,10 @@
 #include <cmath>
 
 // Opgave A2:
-lcg::lcg(unsigned int seed0,
-         unsigned int a0,
-         unsigned int c0,
-         unsigned int m0)
+lcg::lcg(std::uint64_t seed0,
+         std::uint64_t a0,
+         std::uint64_t c0,
+         std::uint64_t m0)
     : seed(seed0), a(a0), c(c0), m(m0)
 {
 }
@@ -187,9 +187,6 @@ std::tuple<double,double> quasimc(
 
 // Subdivide the volume along split_dim:
 //     left box and right box
-
-// Divide remaining points proportional to sub-variances:
-//     actually proportional to sigma = sqrt(variance), because error depends on sigma/sqrt(N)
 
 // Dispatch two recursive calls:
 //     stratifiedmc(left)

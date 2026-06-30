@@ -133,7 +133,7 @@ void run_task_C()
 int main(int argc, char* argv[])
 {
     if(argc < 2){
-        std::cerr << "Usage: ./main A or ./main B or ./main debug\n";
+        std::cerr << "Usage: ./main A or ./main B or ./main C or ./main debug\n";
         return 1;
     }
 

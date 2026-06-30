@@ -1,0 +1,6 @@
+# Volume of ellipsoid
+N               = 1000000
+result          = 25.1287
+exact           = 25.1327
+actual error    = 0.00402123
+estimated error = 0.0239734

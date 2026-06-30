@@ -1,0 +1,12 @@
+# Unit circle area comparison
+N = 100000
+
+plain MC
+result          = 3.13324
+estimated error = 0.0052113
+actual error    = 0.00835265
+
+stratified MC
+result          = 3.17137
+estimated error = 0.0051139
+actual error    = 0.0297778

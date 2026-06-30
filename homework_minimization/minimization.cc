@@ -120,6 +120,7 @@ minimization_result newton(
             lambda /= 2.0;
         }
 
+        // If no decreasing step is found, take the smallest allowed step anyway.
         x = trial_point(x, dx, lambda);
     }
 
@@ -268,6 +269,7 @@ minimization_result newton_central(
             lambda /= 2.0;
         }
 
+        // If no decreasing step is found, take the smallest allowed step anyway.
         x = trial_point(x, dx, lambda);
     }
 

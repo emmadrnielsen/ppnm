@@ -45,19 +45,40 @@ Makefile: Builds the executable and regenerates plots
 and data files.
 
 Generated files:
-    task_A1.txt          output from the manual response test
-    network.data         x, exact g(x), trained network F_p(x)
-    training.data        training points used for task A2
-    derivatives.data     function, derivatives, and antiderivative data
-    ode_network.data     ODE solution and residual data
-    network.png          plot for task A
-    derivatives.png      plot for task B
-    ode_network.png      plot for task C
+
+A1_txt contains the output from the manual response test.
+
+A2_txt contains the printed minimizer information from training the network
+for task A2.
+
+B_txt contains the printed minimizer information from task B.
+
+C_txt contains the printed minimizer information from task C, including the
+final cost and the checks of the boundary conditions F(0) and F'(0).
+
+network.data contains x, the exact function g(x), and the trained network
+response F_p(x). training.data contains the training points used in task A2.
+
+derivatives.data contains the data for task B: the exact function, the network
+approximation, the first derivative, the second derivative, and the
+antiderivative.
+
+ode_network.data contains the data for task C: the exact ODE solution, the
+network approximation, and the residual F''(x)+F(x).
+
+network.png is the plot for task A, derivatives.png is the plot for task B,
+and ode_network.png is the plot for task C.
 
 ./main A1
 Runs a manual test of the neural-network response function.
 It creates a network, assigns parameters to three neurons by hand,
 and prints x and F_p(x) for x from -1 to 1. No training is done in A1.
+
+
+The minimizer uses a small Hessian regularization and a line search.
+If the Newton direction is not a descent direction, the code falls back to
+steepest descent. This makes the neural-network training more stable,
+especially for task C.
 
 
 AI was used while developing, debugging, and explaining the code.

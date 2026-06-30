@@ -8,7 +8,22 @@ The code is compiled by running
 make clean
 make
 
-Separately each task is run like this:
+This compiles the code, runs all parts of the homework, saves the numerical
+results in text files, and generates the plots.
+
+The files produced are:
+
+circle_errors.txt          results for the unit-circle plain Monte Carlo test
+ellipsoid_results.txt      result for the ellipsoid volume calculation
+quasi_errors.txt           comparison between plain MC and quasi-random MC
+singular_results.txt       comparison of LCG, std::mt19937 and Halton on the singular integral
+stratified_results.txt     result from recursive stratified sampling
+
+circle_errors.svg          plot for the unit-circle error scaling
+quasi_errors.svg           plot comparing plain MC and quasi-random MC error scaling
+
+
+Separately each task is run like this in the Makefile:
 Task A3 is run with
 
 ./main A_circle > circle_errors.txt
@@ -72,8 +87,28 @@ In run_task_B_quasi_circle() the plain MC is compared with
 the quasi-random MC of the unit circle. The results 
 are plotted using quasi_errors.gpi
 
+For quasi-Monte Carlo the usual statistical error estimate 
+from the variance is not valid, because the points are 
+correlated and not independent. Therefore I estimate the 
+error by calculating the integral twice, using two 
+different Halton sequences, and taking the difference 
+between the two results.
+
 Next the assignment says to calculate a specific
 difficult integral. 
+
+The integral in the assignment is written with variables 
+going from 0 to pi, with dx/pi, dy/pi and dz/pi. In the 
+code I instead integrate over [0,1]^3. This is the same 
+integral after the change of variables
+
+u = x/pi, v = y/pi, w = z/pi.
+
+Then dx/pi becomes du, dy/pi becomes dv, and dz/pi becomes 
+dw. This is why the code uses cos(pi*x[0]), cos(pi*x[1]) 
+and cos(pi*x[2]) inside the function, even though the 
+integration limits in the code are 0 to 1.
+
 The following three methods are tested to calculate the
 integral:
 1. LCG - pseudo-random generator

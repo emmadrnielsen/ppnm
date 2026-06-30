@@ -168,6 +168,10 @@ void run_task_B()
 
 
     const double mass = result.x[0];
+
+    // The width enters the Breit-Wigner formula as width^2,
+    // so the sign is physically irrelevant. I print abs(width)
+    // because the physical width should be positive.
     const double width = std::abs(result.x[1]);
     const double scale = result.x[2];
 
@@ -191,6 +195,8 @@ void run_task_B()
 
 void run_task_C()
 {
+    std::cout << "\nRosenbrock comparison:\n";
+
     const pp::vector starting_point{-1.2, 1.0};
 
     const pp::minimization_result forward_result =
@@ -210,6 +216,29 @@ void run_task_C()
     std::cout << "y = " << central_result.x[1] << '\n';
     std::cout << "f = " << rosenbrock(central_result.x) << '\n';
     std::cout << "steps = " << central_result.steps << '\n';
+
+
+    std::cout << "\nHimmelblau comparison:\n";
+
+    const pp::vector himmelblau_start{4.0, 3.0};
+
+    const pp::minimization_result himmelblau_forward =
+        pp::newton(himmelblau, himmelblau_start);
+
+    const pp::minimization_result himmelblau_central =
+        pp::newton_central(himmelblau, himmelblau_start);
+
+    std::cout << "Forward differences:\n";
+    std::cout << "x = " << himmelblau_forward.x[0] << '\n';
+    std::cout << "y = " << himmelblau_forward.x[1] << '\n';
+    std::cout << "f = " << himmelblau(himmelblau_forward.x) << '\n';
+    std::cout << "steps = " << himmelblau_forward.steps << "\n\n";
+
+    std::cout << "Central differences:\n";
+    std::cout << "x = " << himmelblau_central.x[0] << '\n';
+    std::cout << "y = " << himmelblau_central.x[1] << '\n';
+    std::cout << "f = " << himmelblau(himmelblau_central.x) << '\n';
+    std::cout << "steps = " << himmelblau_central.steps << '\n';
 }
 
 

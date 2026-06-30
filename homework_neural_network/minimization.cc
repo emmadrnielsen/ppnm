@@ -231,7 +231,7 @@ minimization_result newton_central(
     int max_steps
 )
 {
-    constexpr double regularization = 1e-6; // Levenberg regularization
+    constexpr double regularization = 1e-4; // Levenberg regularization
     constexpr double minimum_lambda = 1.0 / 1024.0; // for backtracking linesearch
 
     for (int step = 0; step < max_steps; ++step) {
@@ -252,23 +252,34 @@ minimization_result newton_central(
         }
 
         qr decomposition(H);
-        const vector dx = decomposition.solve(-1.0 * g); // ~assignment
+        vector dx = decomposition.solve(-1.0 * g); // ~assignment
         // This uses QR decomposition to solve HΔx=−g.
+
+        // A Newton step is only useful if it is a descent direction.
+        // If it is not, fall back to steepest descent.
+        if (g.dot(dx) >= 0.0) {
+            dx = -1.0 * g;
+        }
 
         const double phi_x = phi(x); // original phi
         double lambda = 1.0; // ~assignment
+        bool accepted = false;
 
         while (lambda > minimum_lambda) { // backtracking linesearch
             const vector candidate = trial_point(x, dx, lambda);
 
             if (phi(candidate) < phi_x) {
+                x = candidate;
+                accepted = true;
                 break; // good step
             }
 
             lambda /= 2.0;
         }
 
-        x = trial_point(x, dx, lambda);
+        if (!accepted) {
+            return {x, step, false};
+        }
     }
 
     return {x, max_steps, false};

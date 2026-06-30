@@ -74,12 +74,12 @@ std::tuple<std::vector<double>, std::vector<pp::vector>> driver(
                                                                   
         double err = dy.norm();
 
-        if(err <= tol){ // if the error is too large, the step is rejected, and the code tries again with a smaller h
+        if(err <= tol){ // If the error is small enough, the step is accepted.
             // Accept step
             x += h;
             y = yh;
 
-            xlist.push_back(x); // stores the initial point
+            xlist.push_back(x); // stores the accepted new x-value
             ylist.push_back(y);
         }
 

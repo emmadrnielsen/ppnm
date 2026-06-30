@@ -277,7 +277,7 @@ void run_task_C()
     // of the three bodies. 
     auto three_body = [](double t, pp::vector z)
     {
-        // the acceleration does not explicityly depend on
+        // the acceleration does not explicitly depend on
         // time so we just write this to avoid warnings.
         (void)t; 
 

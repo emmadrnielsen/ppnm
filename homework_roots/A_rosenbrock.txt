@@ -1,6 +1,6 @@
 Rosenbrock minimum by solving grad f = 0
-x = -0.989975
-y = 0.98005
-f(x,y) = 3.96
-grad_x = -3.97999
-grad_y = -2.00218e-05
+x = 1
+y = 1
+f(x,y) = 5.38211e-26
+grad_x = 1.4384e-12
+grad_y = -4.88498e-13

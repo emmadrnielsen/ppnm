@@ -280,7 +280,7 @@ void run_task_C_stratified()
 int main(int argc, char* argv[])
 {
     if(argc < 2){
-        std::cerr << "Usage: ./main A_circle\n";
+        std::cerr << "Usage: ./main [A_circle | A_ellipsoid | B_quasi | B_singular | C]\n";
         return 1;
     }
 

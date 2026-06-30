@@ -72,8 +72,8 @@ void run_task_A_rosenbrock()
     };
 
     pp::vector start(2);
-    start[0] = -1.0;
-    start[1] =  1.0;
+    start[0] =  1.2;
+    start[1] =  1.2;
 
     pp::vector root = newton( // use newton routine to solve gradient = 0
         grad_rosenbrock,

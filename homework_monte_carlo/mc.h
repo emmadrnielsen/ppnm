@@ -4,20 +4,21 @@
 #include <vector>
 #include <functional>
 #include <tuple>
+#include <cstdint>
 
 // Opgave A2:
 class lcg {
 private:
-    unsigned int seed;
-    unsigned int a;
-    unsigned int c;
-    unsigned int m;
+    std::uint64_t seed;
+    std::uint64_t a;
+    std::uint64_t c;
+    std::uint64_t m;
 
 public:
-    lcg(unsigned int seed0,
-        unsigned int a0 = 1664525,
-        unsigned int c0 = 1013904223,
-        unsigned int m0 = 4294967295u);
+    lcg(std::uint64_t seed0,
+        std::uint64_t a0 = 1664525,
+        std::uint64_t c0 = 1013904223,
+        std::uint64_t m0 = (1ULL << 32));
 
     double operator()();
 };

@@ -35,8 +35,29 @@ Checks the quadratic spline coefficients b and c for simple functions
 y = 1, y = x, and y = x^2. These are compared with known expected values.
 
 Task C:
-Tests a functional version of the quadratic spline, where make_qspline
+I chose the functional programming option instead of implementing
+the cubic spline.
+It tests a functional version of the quadratic spline, where make_qspline
 returns a function that can be evaluated as f(z).
+
+The function make_qspline creates the same quadratic spline as in task B,
+but instead of storing the spline data in a struct, it returns a function.
+The vectors x, y, b and c are moved into the lambda capture, so the returned
+function contains all the data it needs to evaluate the spline later.
+
+This means that after calling
+
+    auto f = make_qspline(x,y);
+
+the spline can be evaluated simply as
+
+    f(z);
+
+Task C is run with
+
+    ./main C
+
+and the output is saved in data_C.txt by the Makefile.
 
 
 interp.h declares the interpolation functions, the qspline struct,
